@@ -8,9 +8,13 @@ ModelImporter:
     100000: //RootNode
     100002: Circle
     100004: Cube
+    100006: Armature
+    100008: Bone
     400000: //RootNode
     400002: Circle
     400004: Cube
+    400006: Armature
+    400008: Bone
     2300000: //RootNode
     2300002: Circle
     2300004: Cube
@@ -21,6 +25,7 @@ ModelImporter:
     4300002: Circle
     7400000: Default Take
     9500000: //RootNode
+    13700000: Cube
   materials:
     importMaterials: 1
     materialName: 0
@@ -35,7 +40,7 @@ ModelImporter:
     animationImportWarnings: 
     animationRetargetingWarnings: 
     animationDoRetargetingWarnings: 0
-    animationCompression: 1
+    animationCompression: 3
     animationRotationError: 0.5
     animationPositionError: 0.5
     animationScaleError: 0.5

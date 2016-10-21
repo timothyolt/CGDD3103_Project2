@@ -2,53 +2,25 @@
 
 namespace Assets
 {
-    public struct Item
+    public static class Item
     {
-        public int Id { get; private set; }
-        public string UiSprite { get; private set; }
-        public override bool Equals(object obj)
+
+        public enum Id
         {
-            if (obj is Item)
-                return ((Item) obj).Id == Id;
-            return base.Equals(obj);
+            None=0,
+            Health=1,
         }
 
-        public bool Equals(Item other)
+        public static string GetResourceString(Id item)
         {
-            return Id == other.Id;
-        }
-
-        public override int GetHashCode()
-        {
-            return Id;
-        }
-
-        public static bool operator ==(Item item1, Item item2)
-        {
-            return item1.Equals(item2);
-        }
-
-        public static bool operator !=(Item item1, Item item2)
-        {
-            return !item1.Equals(item2);
-        }
-
-        public static Item FromId(int id)
-        {
-            switch (id)
+            // ReSharper disable once SwitchStatementMissingSomeCases
+            switch (item)
             {
-                case 1:
-                    return Health;
+                case Id.Health:
+                    return "Sprites/health";
                 default:
-                    return None;
+                    return null;
             }
         }
-
-        //public static Item None { get { return (Item) (_none ?? (_none = new Item() { Id = 0, UiSprite = null }));} }
-        //private static Item? _none = null;
-        //public static Item Health { get { return (Item)(_health ?? (_health = new Item() { Id = 1, UiSprite = Resources.Load<Sprite>("Sprites/health") })); } }
-        //private static Item? _health = null;
-        public static Item None = new Item() {Id = 0, UiSprite = null};
-        public static Item Health = new Item() {Id = 1, UiSprite = "Sprites/health"};
     }
 }

@@ -7,28 +7,24 @@ using UnityEngine;
 using UnityEngine.UI;
 
 [RequireComponent(typeof(RectTransform))]
-public class UI : MonoBehaviour
+public class UiHandler : MonoBehaviour
 {
     public Vector3 InventoryOffset;
-
-    private Item[] _inventory;
-    private int _selectedIndex;
+    public Inventory Inventory;
     private InventorySlot _selectedSlot;
-    private Item _cursorItem;
+    private Item.Id _cursorItem;
     private InventorySlot _cursorSlot;
     private GameObject _cursorObject;
 
-	// Use this for initialization
-	void Start () {
-	    _inventory = new Item[16];
-        _inventory[0] = Item.Health;
-	    foreach (var inventorySlot in GetComponentsInChildren<InventorySlot>())
-	    {
-	        var item = _inventory[inventorySlot.Slot];
-            if (item != Item.None)
+    public void UpdateInventory(Inventory inventory)
+    {
+        foreach (var inventorySlot in GetComponentsInChildren<InventorySlot>())
+        {
+            var item = inventory[inventorySlot.Slot];
+            if (item != Item.Id.None)
                 AddInventoryPreview(inventorySlot, item);
-	    }
-	}
+        }
+    }
 
     private Vector3 _activeInventoryOffset;
     private bool _paused;
@@ -41,8 +37,8 @@ public class UI : MonoBehaviour
             if (_paused)
             {
                 _activeInventoryOffset = InventoryOffset * 
-                    (  _inventory.Skip(4).Take(6).Count(item => item != Item.None) == 6 //first row of inventory is full
-                    || _inventory.Skip(10).Count(item => item != Item.None) > 0 ? 1 : 0.5f); //second row contains anything
+                    (  Inventory.Skip(4).Take(6).Count(item => item != Item.Id.None) == 6 //first row of inventory is full
+                    || Inventory.Skip(10).Count(item => item != Item.Id.None) > 0 ? 1 : 0.5f); //second row contains anything
                 GetComponent<RectTransform>().transform.localPosition += _activeInventoryOffset;
             }
             else
@@ -83,7 +79,7 @@ public class UI : MonoBehaviour
         _cursorObject.transform.parent = transform;
         _cursorObject.transform.SetAsLastSibling();
         slot.Preview = null;
-        _inventory[slot.Slot] = Item.None;
+        _inventory[slot.Slot] = Item.Id.None;
         //DestroyImmediate(slot.Preview);
         Debug.Log(string.Format("begindrag: #{0} {1}", slot.Slot, slot.name));
     }
@@ -97,9 +93,9 @@ public class UI : MonoBehaviour
         Debug.Log("drag: " + _cursorObject.transform.position);
     }
 
-    private static void AddInventoryPreview(InventorySlot slot, Item item)
+    private static void AddInventoryPreview(InventorySlot slot, Item.Id item)
     {
-        if (slot == null || item == Item.None) return;
+        if (slot == null || item == Item.Id.None) return;
         DestroyImmediate(slot.Preview);
         slot.Preview = Instantiate(slot.Background, slot.transform) as GameObject;
         if (slot.Preview == null) return;
@@ -108,7 +104,7 @@ public class UI : MonoBehaviour
         //slot.Preview.transform.SetAsLastSibling();
         var image = slot.Preview.GetComponent<Image>();
         if (image == null) return;
-        image.sprite = Resources.Load<Sprite>(item.UiSprite);
+        image.sprite = Resources.Load<Sprite>(Item.GetResourceString(item));
         //Reset the color, the base object will be colorized
         image.color = Color.white;
         //The base object is sliced, reset this
@@ -131,7 +127,7 @@ public class UI : MonoBehaviour
         if (slot == null) return;
         //if (_cursorItem != Item.None)
         //Dropped out of inventory
-        _cursorItem = Item.None;
+        _cursorItem = Item.Id.None;
         _cursorSlot = null;
         DestroyImmediate(_cursorObject);
         Debug.Log(string.Format("enddrag: #{0} {1}", slot.Slot, slot.name));
