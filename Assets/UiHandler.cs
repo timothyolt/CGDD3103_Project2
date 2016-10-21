@@ -96,7 +96,7 @@ public class UiHandler : MonoBehaviour
     private static void AddInventoryPreview(InventorySlot slot, Item.Id item)
     {
         if (slot == null || item == Item.Id.None) return;
-        DestroyImmediate(slot.Preview);
+        Destroy(slot.Preview);
         slot.Preview = Instantiate(slot.Background, slot.transform) as GameObject;
         if (slot.Preview == null) return;
         //Scale sprite to fit inside background

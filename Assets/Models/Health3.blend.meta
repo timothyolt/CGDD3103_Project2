@@ -1,26 +1,24 @@
 fileFormatVersion: 2
-guid: 1770da749e4960a489fc1676121d4da7
-timeCreated: 1476986877
+guid: a0adde969048ae249ad9eaff3cd0e94a
+timeCreated: 1477086987
 licenseType: Free
 ModelImporter:
   serializedVersion: 19
   fileIDToRecycleName:
-    100000: //RootNode
-    100002: Circle
-    100004: Cube
-    100006: Armature
-    100008: Bone
-    400000: //RootNode
-    400002: Circle
-    400004: Cube
-    400006: Armature
-    400008: Bone
-    2300000: //RootNode
-    2300002: Circle
-    2300004: Cube
-    3300000: //RootNode
-    3300002: Circle
-    3300004: Cube
+    100000: Armature
+    100002: Bone
+    100004: Circle
+    100006: Cube
+    100008: //RootNode
+    400000: Armature
+    400002: Bone
+    400004: Circle
+    400006: Cube
+    400008: //RootNode
+    2300000: Circle
+    2300002: Cube
+    3300000: Circle
+    3300002: Cube
     4300000: Cube
     4300002: Circle
     7400000: Default Take
@@ -40,7 +38,7 @@ ModelImporter:
     animationImportWarnings: 
     animationRetargetingWarnings: 
     animationDoRetargetingWarnings: 0
-    animationCompression: 3
+    animationCompression: 1
     animationRotationError: 0.5
     animationPositionError: 0.5
     animationScaleError: 0.5
