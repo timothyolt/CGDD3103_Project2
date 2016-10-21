@@ -8,7 +8,7 @@ public class InventorySlot : MonoBehaviour, IPointerClickHandler, IDragHandler, 
     public int Slot;
     public UiHandler UiHandlerScript;
     public GameObject Background;
-    public GameObject Preview;
+    public GameObject Preview { get; set; }
 
     public void OnPointerClick(PointerEventData eventData)
     {

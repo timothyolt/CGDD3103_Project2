@@ -10,7 +10,7 @@ public class Inventory : MonoBehaviour, IEnumerable<Item.Id>
 {
     public UiHandler UiHandler;
     private Item.Id[] _slots;
-    private int _selectedSlot;
+    public int SelectedSlot { get; set; }
 
     public Item.Id this[int index]
     {
@@ -43,7 +43,6 @@ public class Inventory : MonoBehaviour, IEnumerable<Item.Id>
     void Start()
     {
         _slots = new Item.Id[16];
-        _slots[0] = Item.Id.Health;
     }
 
     void OnCollisionEnter(Collision collision)
@@ -54,7 +53,7 @@ public class Inventory : MonoBehaviour, IEnumerable<Item.Id>
             if (_slots[i] == Item.Id.None)
             {
                 _slots[i] = pickup.Item;
-                DestroyImmediate(collision.gameObject);
+                Destroy(collision.gameObject);
                 if (UiHandler != null)
                     UiHandler.UpdateInventory(this);
                 return;
@@ -64,7 +63,7 @@ public class Inventory : MonoBehaviour, IEnumerable<Item.Id>
 
     public IEnumerator<Item.Id> GetEnumerator()
     {
-        return (IEnumerator<Item.Id>) _slots.GetEnumerator();
+        return ((IEnumerable<Item.Id>) _slots).GetEnumerator();
     }
 
     IEnumerator IEnumerable.GetEnumerator()

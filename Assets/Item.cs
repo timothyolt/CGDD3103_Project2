@@ -11,13 +11,25 @@ namespace Assets
             Health=1,
         }
 
-        public static string GetResourceString(Id item)
+        public static string GetSpriteResource(Id item)
         {
             // ReSharper disable once SwitchStatementMissingSomeCases
             switch (item)
             {
                 case Id.Health:
-                    return "Sprites/health";
+                    return "Sprites/Health";
+                default:
+                    return null;
+            }
+        }
+
+        public static string GetPrefabResource(Id item)
+        {
+            // ReSharper disable once SwitchStatementMissingSomeCases
+            switch (item)
+            {
+                case Id.Health:
+                    return "Prefabs/Health";
                 default:
                     return null;
             }

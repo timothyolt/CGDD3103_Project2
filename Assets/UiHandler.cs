@@ -56,7 +56,7 @@ public class UiHandler : MonoBehaviour
     public void OnInventoryClick(InventorySlot slot)
     {
         if (slot == null) return;
-        _selectedIndex = slot.Slot;
+        Inventory.SelectedSlot = slot.Slot;
         Image previousSelectedImage;
         if (_selectedSlot != null && _selectedSlot.Background != null && (previousSelectedImage = _selectedSlot.Background.GetComponent<Image>()) != null)
         previousSelectedImage.color = new Color(1, 1, 1, 100f/256f); //default color
@@ -72,14 +72,14 @@ public class UiHandler : MonoBehaviour
     public void OnInventoryBeginDrag(InventorySlot slot)
     {
         if (slot == null) return;
-        _cursorItem = _inventory[slot.Slot];
+        _cursorItem = Inventory[slot.Slot];
         _cursorSlot = slot;
         _cursorObject = slot.Preview;
         //float above all other ui elements
         _cursorObject.transform.parent = transform;
         _cursorObject.transform.SetAsLastSibling();
         slot.Preview = null;
-        _inventory[slot.Slot] = Item.Id.None;
+        Inventory[slot.Slot] = Item.Id.None;
         //DestroyImmediate(slot.Preview);
         Debug.Log(string.Format("begindrag: #{0} {1}", slot.Slot, slot.name));
     }
@@ -104,7 +104,7 @@ public class UiHandler : MonoBehaviour
         //slot.Preview.transform.SetAsLastSibling();
         var image = slot.Preview.GetComponent<Image>();
         if (image == null) return;
-        image.sprite = Resources.Load<Sprite>(Item.GetResourceString(item));
+        image.sprite = Resources.Load<Sprite>(Item.GetSpriteResource(item));
         //Reset the color, the base object will be colorized
         image.color = Color.white;
         //The base object is sliced, reset this
@@ -116,18 +116,26 @@ public class UiHandler : MonoBehaviour
     public void OnInventoryDrop(InventorySlot slot)
     {
         if (slot == null) return;
-        _inventory[slot.Slot] = _cursorItem;
-        AddInventoryPreview(slot, _inventory[slot.Slot]);
+        Inventory[slot.Slot] = _cursorItem;
+        AddInventoryPreview(slot, Inventory[slot.Slot]);
         Debug.Log(string.Format("drop: #{0} {1}", slot.Slot, slot.name));
+        _cursorItem = Item.Id.None;
     }
 
     //Relies on OnDrop (when valid) being called before OnEndDrag
     public void OnInventoryEndDrag(InventorySlot slot)
     {
         if (slot == null) return;
-        //if (_cursorItem != Item.None)
-        //Dropped out of inventory
-        _cursorItem = Item.Id.None;
+        if (_cursorItem != Item.Id.None)
+        {
+            var forward = Inventory.transform.forward;
+            forward.y += 1;
+            var itemDrop = Instantiate(Resources.Load<GameObject>(Item.GetPrefabResource(_cursorItem)), Inventory.transform.position + forward, Inventory.transform.rotation) as GameObject;
+            forward.Scale(new Vector3(50, 1, 50));
+            if (itemDrop != null && itemDrop.GetComponent<Rigidbody>() != null)
+                itemDrop.GetComponent<Rigidbody>().AddForce(forward);
+            _cursorItem = Item.Id.None;
+        }
         _cursorSlot = null;
         DestroyImmediate(_cursorObject);
         Debug.Log(string.Format("enddrag: #{0} {1}", slot.Slot, slot.name));
