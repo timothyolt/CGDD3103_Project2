@@ -1,6 +1,6 @@
 ﻿namespace Assets
 {
-    public enum GuardTargetAction
+    public enum TargetAction
     {
         NoTarget,
         Seek,
