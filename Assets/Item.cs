@@ -74,7 +74,7 @@
                 case Id.Shot2:
                     return "Heavy Shot";
                 case Id.Shot3:
-                    return "Damaging Shot";
+                    return "Spike Shot";
                 default:
                     return null;
             }
