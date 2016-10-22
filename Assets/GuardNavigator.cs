@@ -23,7 +23,13 @@ public class GuardNavigator : LivingEntityNavigator
             return;
         }
         NavMeshAgent.Resume();
-        Target.Health -= PunchDamage;
+        var forward = transform.forward;
+        forward.y += 1;
+        var force = transform.forward;
+        force.Scale(new Vector3(500, 1, 500));
+        var itemDrop = Instantiate(Resources.Load<GameObject>(Item.GetPrefabResource(Item.Id.Shot1)), transform.position + forward, transform.rotation) as GameObject;
+        if (itemDrop != null && itemDrop.GetComponent<Rigidbody>() != null)
+            itemDrop.GetComponent<Rigidbody>().AddForce(force);
         TimeSinceAttack = 0;
     }
 

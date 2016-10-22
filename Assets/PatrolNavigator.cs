@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Assets;
+using UnityEngine;
 
 [RequireComponent(typeof(NavMeshAgent))]
 public class PatrolNavigator : GuardNavigator
@@ -21,4 +22,15 @@ public class PatrolNavigator : GuardNavigator
             NavMeshAgent.destination = Waypoints[_waypointTargetIndex].transform.position;
     }
 
+    protected override void Attack()
+    {
+        if (Target == null)
+        {
+            Action = TargetAction.NoTarget;
+            return;
+        }
+        NavMeshAgent.Resume();
+        Target.Health -= PunchDamage;
+        TimeSinceAttack = 0;
+    }
 }
