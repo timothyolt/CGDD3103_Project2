@@ -1,5 +1,4 @@
 ﻿using Assets;
-
 using UnityEngine;
 
 [RequireComponent(typeof(Collider))]
@@ -12,8 +11,15 @@ public class GuardNavAttack : MonoBehaviour
     {
         var livingEntity = other.gameObject.GetComponentInChildren<LivingEntity>();
         if (GuardNavigator == null || livingEntity == null ||
-            GuardNavigator.GuardState >= GuardState.Attack) return;
-        GuardNavigator.GuardState = GuardState.Attack;
+            GuardNavigator.Action >= GuardTargetAction.Attack) return;
+        GuardNavigator.Action = GuardTargetAction.Attack;
         GuardNavigator.Target = livingEntity;
+    }
+
+    void OnTriggerExit(Collider other)
+    {
+        var livingEntity = other.gameObject.GetComponentInChildren<LivingEntity>();
+        if (GuardNavigator == null || livingEntity == null || livingEntity != GuardNavigator.Target) return;
+        GuardNavigator.Action = GuardTargetAction.Seek;
     }
 }

@@ -9,10 +9,8 @@ public class GuardNavigator : MonoBehaviour
     private float _timeSinceAttack;
     public float AttackCooldown;
     public int PunchDamage;
-    public GuardState GuardState;
+    public GuardTargetAction Action;
     public LivingEntity Target;
-    public SphereCollider VisibilityTrigger;
-    public SphereCollider AttackTrigger;
 	// Use this for initialization
 	void Start ()
 	{
@@ -23,17 +21,17 @@ public class GuardNavigator : MonoBehaviour
 	void Update ()
 	{
 	    _timeSinceAttack += Time.deltaTime;
-	    switch (GuardState)
+	    switch (Action)
         {
-            case GuardState.Idle:
+            case GuardTargetAction.Idle:
                 _navMeshAgent.Stop();
                 break;
-            case GuardState.Seek:
+            case GuardTargetAction.Seek:
                 _navMeshAgent.Resume();
                 if (Target != null)
                     _navMeshAgent.destination = Target.transform.position;
                 break;
-            case GuardState.Attack:
+            case GuardTargetAction.Attack:
                 _navMeshAgent.Resume();
                 if (_timeSinceAttack > AttackCooldown)
                     Attack();

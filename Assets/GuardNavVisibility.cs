@@ -11,8 +11,8 @@ public class GuardNavVisibility : MonoBehaviour
     {
         var livingEntity = other.gameObject.GetComponentInChildren<LivingEntity>();
         if (GuardNavigator == null || livingEntity == null ||
-            GuardNavigator.GuardState >= GuardState.Seek) return;
-        GuardNavigator.GuardState = GuardState.Seek;
+            GuardNavigator.Action >= GuardTargetAction.Seek) return;
+        GuardNavigator.Action = GuardTargetAction.Seek;
         GuardNavigator.Target = livingEntity;
     }
 
@@ -20,7 +20,7 @@ public class GuardNavVisibility : MonoBehaviour
     {
         var livingEntity = other.gameObject.GetComponentInChildren<LivingEntity>();
         if (GuardNavigator == null || livingEntity == null || livingEntity != GuardNavigator.Target) return;
-        GuardNavigator.GuardState = GuardState.Idle;
+        GuardNavigator.Action = GuardTargetAction.Idle;
         GuardNavigator.Target = null;
     }
 }

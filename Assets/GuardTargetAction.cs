@@ -1,8 +1,8 @@
 ﻿namespace Assets
 {
-    public enum GuardState
+    public enum GuardTargetAction
     {
-        Idle,
+        NoTarget,
         Seek,
         Attack
     }
