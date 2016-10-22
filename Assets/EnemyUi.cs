@@ -4,14 +4,13 @@
 using UnityEngine;
 using System.Collections;
 
-public class EnemyGui : MonoBehaviour
+public class EnemyUi : MonoBehaviour
 {
-    private LivingEntity enemyLifeScript;
+    public LivingEntity enemyLifeScript;
     private TextMesh textMesh;
     // Use this for initialization
     void Start()
     {
-        enemyLifeScript = gameObject.GetComponentInParent<LivingEntity>();
         textMesh = gameObject.GetComponent<TextMesh>();
     }
 	
