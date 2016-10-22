@@ -3,6 +3,7 @@
 
 using System.Linq;
 using Assets;
+using Assets.Inventory;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -12,7 +13,7 @@ public class InventoryUi : MonoBehaviour
     public Vector3 InventoryOffset;
     public Inventory Inventory;
     private InventorySlotUi _selectedSlot;
-    private Item.Id _cursorItem;
+    private InventoryItem _cursorItem;
     private InventorySlotUi _cursorSlot;
     private GameObject _cursorObject;
 
@@ -36,8 +37,8 @@ public class InventoryUi : MonoBehaviour
             if (_open)
             {
                 _activeInventoryOffset = InventoryOffset * 
-                    (  Inventory.Skip(4).Take(6).Count(item => item != Item.Id.None) == 6 //first row of inventory is full
-                    || Inventory.Skip(10).Count(item => item != Item.Id.None) > 0 ? 1 : 0.5f); //second row contains anything
+                    (  Inventory.Skip(4).Take(6).Count(item => item != null) == 6 //first row of inventory is full
+                    || Inventory.Skip(10).Count(item => item != null) > 0 ? 1 : 0.5f); //second row contains anything
                 GetComponent<RectTransform>().transform.localPosition += _activeInventoryOffset;
             }
             else
@@ -87,13 +88,16 @@ public class InventoryUi : MonoBehaviour
         Destroy(_cursorObject.GetComponent<InventorySlotUi>().Background);
         Destroy(_cursorObject.GetComponent<InventorySlotUi>());
         //float above all other ui elements
-        _cursorObject.transform.parent = transform;
+        //_cursorObject.transform.parent = transform;
+        _cursorObject.transform.SetParent(transform);
         _cursorObject.transform.SetAsLastSibling();
         //Delete previous item data
         Destroy(slot.PreviewImage);
         if (slot.ItemName != null)
             slot.ItemName.text = "";
-        Inventory[slot.Slot] = Item.Id.None;
+        if (slot.ItemCount != null)
+            slot.ItemCount.text = "";
+        Inventory[slot.Slot] = null;
         Debug.Log(string.Format("begindrag: #{0} {1}", slot.Slot, slot.name));
     }
 
@@ -111,31 +115,52 @@ public class InventoryUi : MonoBehaviour
         if (slot == null) return;
         if (_cursorSlot != null)
         {
-            Inventory.SwapSlots(_cursorSlot.Slot, slot.Slot);
-            _cursorSlot.UpdateUi(Inventory[_cursorSlot.Slot]);
+            //From storage to quick bar
+            if (slot.Slot < 4 && _cursorSlot.Slot >= 4)
+            {
+                //Clone item back to storage
+                Inventory[_cursorSlot.Slot] = new InventoryItem(_cursorItem);
+                _cursorSlot.UpdateUi(Inventory[_cursorSlot.Slot]);
+            }
+            else
+            {
+                Inventory.SwapSlots(_cursorSlot.Slot, slot.Slot);
+                _cursorSlot.UpdateUi(Inventory[_cursorSlot.Slot]);
+            }
         }
         Inventory[slot.Slot] = _cursorItem;
         slot.UpdateUi(Inventory[slot.Slot]);
         Debug.Log(string.Format("drop: #{0} {1}", slot.Slot, slot.name));
-        _cursorItem = Item.Id.None;
+        _cursorItem = null;
     }
 
     //Relies on OnDrop (when valid) being called before OnEndDrag
     public void OnInventoryEndDrag(InventorySlotUi slot)
     {
         if (slot == null) return;
-        if (_cursorItem != Item.Id.None)
+        if (_cursorItem != null)
+        //Drop items
         {
+            //If quickbar is dropped, drop all items of that type
+            if (slot.Slot < 4)
+                for (var i = 4; i < Inventory.Count(); i++)
+                    if (Inventory[i] != null && Inventory[i].Item == _cursorItem.Item)
+                        Inventory[i] = null;
             var forward = Inventory.transform.forward;
             forward.y += 1;
-            var itemDrop = Instantiate(Resources.Load<GameObject>(Item.GetPrefabResource(_cursorItem)), Inventory.transform.position + forward, Inventory.transform.rotation) as GameObject;
-            forward.Scale(new Vector3(50, 1, 50));
-            if (itemDrop != null && itemDrop.GetComponent<Rigidbody>() != null)
-                itemDrop.GetComponent<Rigidbody>().AddForce(forward);
-            _cursorItem = Item.Id.None;
+            var force = forward;
+            force.Scale(new Vector3(50, 1, 50));
+            for (var i = 0; i < _cursorItem.Count; i++)
+            {
+                var itemDrop = Instantiate(Resources.Load<GameObject>(Item.GetPrefabResource(_cursorItem.Item)), Inventory.transform.position + forward, Inventory.transform.rotation) as GameObject;
+                if (itemDrop != null && itemDrop.GetComponent<Rigidbody>() != null)
+                    itemDrop.GetComponent<Rigidbody>().AddForce(force);
+            }
+            _cursorItem = null;
         }
         _cursorSlot = null;
         DestroyImmediate(_cursorObject);
+        UpdateInventory(Inventory);
         Debug.Log(string.Format("enddrag: #{0} {1}", slot.Slot, slot.name));
     }
 }

@@ -2,6 +2,7 @@
 //Timothy Oltjenbruns, 2016
 
 using Assets;
+using Assets.Inventory;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -13,13 +14,16 @@ public class InventorySlotUi : MonoBehaviour, IPointerClickHandler, IDragHandler
     public GameObject Background;
     public GameObject PreviewImage { get; set; }
     public Text ItemName;
+    public Text ItemCount;
 
-    public void UpdateUi(Item.Id item)
+    public void UpdateUi(InventoryItem item)
     {
         Destroy(PreviewImage);
         if (ItemName != null)
             ItemName.text = "";
-        if (item == Item.Id.None) return;
+        if (ItemCount != null)
+            ItemCount.text = "";
+        if (item == null) return;
 
         PreviewImage = Instantiate(Background, transform) as GameObject;
         if (PreviewImage == null) return;
@@ -27,7 +31,7 @@ public class InventorySlotUi : MonoBehaviour, IPointerClickHandler, IDragHandler
         PreviewImage.transform.localScale = new Vector3(.8f, .8f, .8f);
         var image = PreviewImage.GetComponent<Image>();
         if (image == null) return;
-        image.sprite = Resources.Load<Sprite>(Item.GetSpriteResource(item));
+        image.sprite = Resources.Load<Sprite>(Item.GetSpriteResource(item.Item));
         //Reset the color, the base object will be colorized
         image.color = Color.white;
         //The base object is sliced, reset this
@@ -37,7 +41,10 @@ public class InventorySlotUi : MonoBehaviour, IPointerClickHandler, IDragHandler
         if (ItemName == null) return;
         //Mind the render order
         ItemName.transform.SetAsLastSibling();
-        ItemName.text = Item.GetName(item);
+        ItemName.text = Item.GetName(item.Item);
+        if (ItemCount == null) return;
+        ItemCount.transform.SetAsLastSibling();
+        ItemCount.text = item.Count.ToString();
     }
 
     //Forward events to parent
