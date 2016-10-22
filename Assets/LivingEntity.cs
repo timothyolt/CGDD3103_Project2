@@ -1,9 +1,12 @@
 ﻿//Timothy Oltjenbruns
+
+using Assets;
 using UnityEngine;
 
 public class LivingEntity : MonoBehaviour
 {
 
+    public Team Team;
     public int HealthRegen;
     public int HealthTimeToHeal;
     public int HealthMax;

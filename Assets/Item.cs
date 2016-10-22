@@ -1,6 +1,4 @@
-﻿using UnityEngine;
-
-namespace Assets
+﻿namespace Assets
 {
     public static class Item
     {
