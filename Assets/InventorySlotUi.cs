@@ -2,13 +2,15 @@
 //Timothy Oltjenbruns, 2016
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
-public class InventorySlot : MonoBehaviour, IPointerClickHandler, IDragHandler, IDropHandler, IEndDragHandler, IBeginDragHandler
+public class InventorySlotUi : MonoBehaviour, IPointerClickHandler, IDragHandler, IDropHandler, IEndDragHandler, IBeginDragHandler
 {
     public int Slot;
     public InventoryUi InventoryUiScript;
     public GameObject Background;
     public GameObject Preview { get; set; }
+    public Text ItemName { get; set; }
 
     public void OnPointerClick(PointerEventData eventData)
     {

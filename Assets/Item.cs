@@ -44,5 +44,21 @@ namespace Assets
                     return null;
             }
         }
+
+        public static string GetName(Id item)
+        {
+            // ReSharper disable once SwitchStatementMissingSomeCases
+            switch (item)
+            {
+                case Id.Health:
+                    return "Health";
+                case Id.Health2:
+                    return "Super Health";
+                case Id.Health3:
+                    return "Total Health";
+                default:
+                    return null;
+            }
+        }
     }
 }
