@@ -21,20 +21,19 @@ public class InventoryUi : MonoBehaviour
         foreach (var inventorySlot in GetComponentsInChildren<InventorySlotUi>())
         {
             var item = inventory[inventorySlot.Slot];
-            if (item != Item.Id.None)
-                inventorySlot.UpdateUi(item);
+            inventorySlot.UpdateUi(item);
         }
     }
 
     private Vector3 _activeInventoryOffset;
-    private bool _paused;
-    public bool Paused
+    private bool _open;
+    public bool Open
     {
-        get { return _paused; }
+        get { return _open; }
         set
         {
-            _paused = value;
-            if (_paused)
+            _open = value;
+            if (_open)
             {
                 _activeInventoryOffset = InventoryOffset * 
                     (  Inventory.Skip(4).Take(6).Count(item => item != Item.Id.None) == 6 //first row of inventory is full
@@ -49,12 +48,22 @@ public class InventoryUi : MonoBehaviour
 	void Update ()
 	{
 	    if (Input.GetKeyDown(KeyCode.E))
-	        Paused = !Paused;
-	}
+	        Open = !Open;
+	    if (Inventory == null)
+	        return;
+        if (Input.GetKeyDown(KeyCode.Alpha1))
+            Inventory.UseItem(0);
+        if (Input.GetKeyDown(KeyCode.Alpha2))
+            Inventory.UseItem(1);
+        if (Input.GetKeyDown(KeyCode.Alpha3))
+            Inventory.UseItem(2);
+        if (Input.GetKeyDown(KeyCode.Alpha4))
+            Inventory.UseItem(3);
+    }
 
     public void OnInventoryClick(InventorySlotUi slot)
     {
-        if (slot == null) return;
+        if (Inventory == null || slot == null) return;
         Inventory.SelectedSlot = slot.Slot;
         Image previousSelectedImage;
         if (_selectedSlot != null && _selectedSlot.Background != null && (previousSelectedImage = _selectedSlot.Background.GetComponent<Image>()) != null)
@@ -63,6 +72,7 @@ public class InventoryUi : MonoBehaviour
         if (slot.Background != null && (selectedImage = slot.Background.GetComponent<Image>()) != null)
             selectedImage.color = new Color(.5f, .5f, 1, 100f / 256f);
         _selectedSlot = slot;
+        Inventory.UseItem(_selectedSlot.Slot);
         Debug.Log(string.Format("click: #{0} {1}", slot.Slot, slot.name));
     }
 

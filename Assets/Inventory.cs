@@ -9,6 +9,7 @@ using UnityEngine;
 public class Inventory : MonoBehaviour, IEnumerable<Item.Id>
 {
     public InventoryUi InventoryUi;
+    public LivingEntity User;
     private Item.Id[] _slots;
     public int SelectedSlot { get; set; }
 
@@ -32,11 +33,30 @@ public class Inventory : MonoBehaviour, IEnumerable<Item.Id>
         }
     }
 
-    public void SwapSlots(int to, int from)
+    public void UseItem(int index)
     {
-        var temp = _slots[to];
-        _slots[to] = _slots[from];
-        _slots[from] = temp;
+        if (User == null) return;
+        switch (_slots[index])
+        {
+            case Item.Id.Health:
+                User.Health += 10;
+                break;
+            case Item.Id.Health2:
+                User.Health += 30;
+                break;
+            case Item.Id.Health3:
+                User.Health = 100;
+                break;
+        }
+        _slots[index] = Item.Id.None;
+        InventoryUi.UpdateInventory(this);
+    }
+
+    public void SwapSlots(int toIndex, int fromIndex)
+    {
+        var temp = _slots[toIndex];
+        _slots[toIndex] = _slots[fromIndex];
+        _slots[fromIndex] = temp;
     }
 
     // Use this for initialization

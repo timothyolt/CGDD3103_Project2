@@ -16,8 +16,10 @@ public class InventorySlotUi : MonoBehaviour, IPointerClickHandler, IDragHandler
 
     public void UpdateUi(Item.Id item)
     {
-        if (item == Item.Id.None) return;
         Destroy(PreviewImage);
+        if (ItemName != null)
+            ItemName.text = "";
+        if (item == Item.Id.None) return;
 
         PreviewImage = Instantiate(Background, transform) as GameObject;
         if (PreviewImage == null) return;
