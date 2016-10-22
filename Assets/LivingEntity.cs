@@ -1,49 +1,43 @@
 ﻿//Timothy Oltjenbruns
-//CGDD3101_Project1
-//Updated 9/14/2016
 using UnityEngine;
-using System.Collections;
 
 public class LivingEntity : MonoBehaviour
 {
 
-    public int healthRegen;
-    public int healthTimeToHeal;
-    public int healthMax;
+    public int HealthRegen;
+    public int HealthTimeToHeal;
+    public int HealthMax;
 
     private int _health;
-    public float timeSinceDamage { get; private set; }
-    public float timeSinceHeal { get; private set; }
-    public int health {
+    public float TimeSinceDamage { get; private set; }
+    public float TimeSinceHeal { get; private set; }
+    public int Health {
         get { return _health; }
         set {
             if (value < _health)
-                timeSinceDamage = 0;
+                TimeSinceDamage = 0;
             else
-                timeSinceHeal = 0;
+                TimeSinceHeal = 0;
             _health = value;
             if (_health <= 0)
                 Destroy(gameObject);
-            else if (_health > healthMax)
-                _health = healthMax;
+            else if (_health > HealthMax)
+                _health = HealthMax;
         }
     }
-    private void timeHealth()
+    private void TimeHealth()
     {
-        timeSinceDamage += Time.deltaTime;
-        timeSinceHeal += Time.deltaTime;
-        if (timeSinceDamage > healthTimeToHeal && timeSinceHeal > healthTimeToHeal && health < healthMax)
-            health += healthRegen;
+        TimeSinceDamage += Time.deltaTime;
+        TimeSinceHeal += Time.deltaTime;
+        if (TimeSinceDamage > HealthTimeToHeal && TimeSinceHeal > HealthTimeToHeal && Health < HealthMax)
+            Health += HealthRegen;
     }
-
-
-	// Use this for initialization
+    
 	void Start () {
-        health = healthMax;
+        Health = HealthMax;
 	}
 	
-	// Update is called once per frame
 	void Update () {
-        timeHealth();
+        TimeHealth();
 	}
 }
