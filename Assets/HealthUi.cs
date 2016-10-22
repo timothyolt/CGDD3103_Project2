@@ -13,8 +13,8 @@ public class HealthUi : MonoBehaviour {
 	void Update () {
 	    if (LivingEntity == null) return;
 	    if (HealthBar != null)
-	        HealthBar.sizeDelta = new Vector2((float) LivingEntity.health / LivingEntity.healthMax * HealthBarMaxSize.x, HealthBarMaxSize.y);
+	        HealthBar.sizeDelta = new Vector2((float) LivingEntity.Health / LivingEntity.HealthMax * HealthBarMaxSize.x, HealthBarMaxSize.y);
 	    if (HealthText != null)
-	        HealthText.text = LivingEntity.health.ToString();
+	        HealthText.text = LivingEntity.Health.ToString();
 	}
 }
