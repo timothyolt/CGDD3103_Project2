@@ -22,7 +22,7 @@ public class InventoryUi : MonoBehaviour
         {
             var item = inventory[inventorySlot.Slot];
             if (item != Item.Id.None)
-                UpdateInventoryPreview(inventorySlot, item);
+                inventorySlot.UpdateUi(item);
         }
     }
 
@@ -71,13 +71,19 @@ public class InventoryUi : MonoBehaviour
         if (slot == null) return;
         _cursorItem = Inventory[slot.Slot];
         _cursorSlot = slot;
-        _cursorObject = slot.Preview;
+        //Copy slot
+        _cursorObject = (GameObject) Instantiate(slot.gameObject, slot.transform);
+        //Delete background and ui script
+        Destroy(_cursorObject.GetComponent<InventorySlotUi>().Background);
+        Destroy(_cursorObject.GetComponent<InventorySlotUi>());
         //float above all other ui elements
         _cursorObject.transform.parent = transform;
         _cursorObject.transform.SetAsLastSibling();
-        slot.Preview = null;
+        //Delete previous item data
+        Destroy(slot.PreviewImage);
+        if (slot.ItemName != null)
+            slot.ItemName.text = "";
         Inventory[slot.Slot] = Item.Id.None;
-        //DestroyImmediate(slot.Preview);
         Debug.Log(string.Format("begindrag: #{0} {1}", slot.Slot, slot.name));
     }
 
@@ -90,40 +96,16 @@ public class InventoryUi : MonoBehaviour
         Debug.Log("drag: " + _cursorObject.transform.position);
     }
 
-    private static void UpdateInventoryPreview(InventorySlotUi slot, Item.Id item)
-    {
-        if (slot == null || item == Item.Id.None) return;
-        Destroy(slot.Preview);
-
-        if (slot.ItemName != null)
-            slot.ItemName.text = Item.GetName(item);
-
-        slot.Preview = Instantiate(slot.Background, slot.transform) as GameObject;
-        if (slot.Preview == null) return;
-        //Scale sprite to fit inside background
-        slot.Preview.transform.localScale = new Vector3(.8f, .8f, .8f);
-        //slot.Preview.transform.SetAsLastSibling();
-        var image = slot.Preview.GetComponent<Image>();
-        if (image == null) return;
-        image.sprite = Resources.Load<Sprite>(Item.GetSpriteResource(item));
-        //Reset the color, the base object will be colorized
-        image.color = Color.white;
-        //The base object is sliced, reset this
-        image.type = Image.Type.Simple;
-        //Disable raycasting to prevent the drop event from misfiring
-        image.raycastTarget = false;
-    }
-
     public void OnInventoryDrop(InventorySlotUi slot)
     {
         if (slot == null) return;
         if (_cursorSlot != null)
         {
             Inventory.SwapSlots(_cursorSlot.Slot, slot.Slot);
-            UpdateInventoryPreview(_cursorSlot, Inventory[_cursorSlot.Slot]);
+            _cursorSlot.UpdateUi(Inventory[_cursorSlot.Slot]);
         }
         Inventory[slot.Slot] = _cursorItem;
-        UpdateInventoryPreview(slot, Inventory[slot.Slot]);
+        slot.UpdateUi(Inventory[slot.Slot]);
         Debug.Log(string.Format("drop: #{0} {1}", slot.Slot, slot.name));
         _cursorItem = Item.Id.None;
     }
