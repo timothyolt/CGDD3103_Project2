@@ -50,6 +50,10 @@ namespace Assets.Inventory
 
         public void UseItem(int index)
         {
+            var forward = transform.forward;
+            forward.y += 1;
+            var force = transform.forward;
+            GameObject itemDrop;
             if (User == null) return;
             var item = _items[index];
             switch (item.Item)
@@ -62,6 +66,24 @@ namespace Assets.Inventory
                     break;
                 case Item.Id.Health3:
                     User.Health = 100;
+                    break;
+                case Item.Id.Shot1:
+                    force.Scale(new Vector3(500, 1, 500));
+                    itemDrop = Instantiate(Resources.Load<GameObject>(Item.GetPrefabResource(item.Item)), transform.position + forward, transform.rotation) as GameObject;
+                        if (itemDrop != null && itemDrop.GetComponent<Rigidbody>() != null)
+                            itemDrop.GetComponent<Rigidbody>().AddForce(force);
+                    break;
+                case Item.Id.Shot2:
+                    force.Scale(new Vector3(1000, 1, 1000));
+                    itemDrop = Instantiate(Resources.Load<GameObject>(Item.GetPrefabResource(item.Item)), transform.position + forward, transform.rotation) as GameObject;
+                    if (itemDrop != null && itemDrop.GetComponent<Rigidbody>() != null)
+                        itemDrop.GetComponent<Rigidbody>().AddForce(force);
+                    break;
+                case Item.Id.Shot3:
+                    force.Scale(new Vector3(1500, 1, 1500));
+                    itemDrop = Instantiate(Resources.Load<GameObject>(Item.GetPrefabResource(item.Item)), transform.position + forward, transform.rotation) as GameObject;
+                    if (itemDrop != null && itemDrop.GetComponent<Rigidbody>() != null)
+                        itemDrop.GetComponent<Rigidbody>().AddForce(force);
                     break;
             }
             if (index < 4)
@@ -105,7 +127,9 @@ namespace Assets.Inventory
 
         void OnCollisionEnter(Collision collision)
         {
-            var pickup = collision.gameObject.GetComponent<Pickup>();
+            if (collision.gameObject.GetComponent<Rigidbody>() != null &&
+                collision.gameObject.GetComponent<Rigidbody>().velocity.sqrMagnitude > 25) return;
+                var pickup = collision.gameObject.GetComponent<Pickup>();
             if (pickup == null) return;
             for (var i = 4; i < _items.Length; i++)
                 if (_items[i] != null && _items[i].Item == pickup.Item && _items[i].Count < SlotCapacity)

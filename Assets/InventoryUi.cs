@@ -153,8 +153,12 @@ public class InventoryUi : MonoBehaviour
             for (var i = 0; i < _cursorItem.Count; i++)
             {
                 var itemDrop = Instantiate(Resources.Load<GameObject>(Item.GetPrefabResource(_cursorItem.Item)), Inventory.transform.position + forward, Inventory.transform.rotation) as GameObject;
-                if (itemDrop != null && itemDrop.GetComponent<Rigidbody>() != null)
+                if (itemDrop == null) continue;
+                if (itemDrop.GetComponent<Rigidbody>() != null)
                     itemDrop.GetComponent<Rigidbody>().AddForce(force);
+                if (itemDrop.GetComponent<ProjectilePickup>() != null)
+                    //Render projectiles inert
+                    itemDrop.GetComponent<ProjectilePickup>().LifeTime = 5;
             }
             _cursorItem = null;
         }
