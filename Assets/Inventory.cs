@@ -8,7 +8,7 @@ using UnityEngine;
 
 public class Inventory : MonoBehaviour, IEnumerable<Item.Id>
 {
-    public UiHandler UiHandler;
+    public InventoryUi InventoryUi;
     private Item.Id[] _slots;
     public int SelectedSlot { get; set; }
 
@@ -54,8 +54,8 @@ public class Inventory : MonoBehaviour, IEnumerable<Item.Id>
             {
                 _slots[i] = pickup.Item;
                 Destroy(collision.gameObject);
-                if (UiHandler != null)
-                    UiHandler.UpdateInventory(this);
+                if (InventoryUi != null)
+                    InventoryUi.UpdateInventory(this);
                 return;
             }
         //TODO: notify inventory full

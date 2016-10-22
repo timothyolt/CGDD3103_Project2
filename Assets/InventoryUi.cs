@@ -7,7 +7,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 [RequireComponent(typeof(RectTransform))]
-public class UiHandler : MonoBehaviour
+public class InventoryUi : MonoBehaviour
 {
     public Vector3 InventoryOffset;
     public Inventory Inventory;
