@@ -14,8 +14,8 @@ public class PatrolNavigator : GuardNavigator
             _waypointTargetIndex = (_waypointTargetIndex+1)%Waypoints.Length;
             return;
         }
-        var sqrDistance2d = (new Vector2(waypoint.transform.position.x, waypoint.transform.position.z) - new Vector2(transform.position.x, transform.position.z)).sqrMagnitude;
-        if (sqrDistance2d < 4)
+        var sqrDistance2D = (new Vector2(waypoint.transform.position.x, waypoint.transform.position.z) - new Vector2(transform.position.x, transform.position.z)).sqrMagnitude;
+        if (sqrDistance2D < 4)
             _waypointTargetIndex = (_waypointTargetIndex + 1) % Waypoints.Length;
         else
             NavMeshAgent.destination = Waypoints[_waypointTargetIndex].transform.position;

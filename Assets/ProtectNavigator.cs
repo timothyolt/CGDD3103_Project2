@@ -2,17 +2,31 @@
 using UnityEngine;
 
 [RequireComponent(typeof(NavMeshAgent))]
-public class GuardNavigator : LivingEntityNavigator
+public class ProtectNavigator : LivingEntityNavigator
 {
     protected NavMeshAgent NavMeshAgent;
+    public GameObject Protect;
+    public bool CloseEnoughToProtect;
+
 	void Start ()
 	{
 	    NavMeshAgent = GetComponent<NavMeshAgent>();
-	}
+	    if (Protect.GetComponentInChildren<NavProtectTrigger>() != null)
+	        Protect.GetComponentInChildren<NavProtectTrigger>().Navigator = this;
+        if (Protect.GetComponentInChildren<NavVisibilityTrigger>() != null)
+            Protect.GetComponentInChildren<NavVisibilityTrigger>().Navigator = this;
+    }
 
     protected override void NoTarget()
     {
-        NavMeshAgent.Stop();
+        if (Protect == null) return;
+        if (!CloseEnoughToProtect)
+        {
+            NavMeshAgent.Resume();
+            NavMeshAgent.destination = Protect.transform.position;
+        }
+        else
+            NavMeshAgent.Stop();
     }
 
     protected override void Attack()
@@ -32,7 +46,7 @@ public class GuardNavigator : LivingEntityNavigator
         NavMeshAgent.Resume();
         if (Target != null)
             NavMeshAgent.destination = Target.transform.position;
-        else 
+        else
             Action = TargetAction.NoTarget;
     }
 }

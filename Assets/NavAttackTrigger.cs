@@ -9,7 +9,10 @@ public class NavAttackTrigger : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
+        int work;
         var livingEntity = other.gameObject.GetComponent<LivingEntity>();
+        if (Navigator is ProtectNavigator && livingEntity != null)
+            work = 0;
         if (Navigator == null || livingEntity == null ||
             livingEntity.Team == Navigator.GetComponent<LivingEntity>().Team || Navigator.Action >= TargetAction.Attack) return;
         Navigator.Action = TargetAction.Attack;
