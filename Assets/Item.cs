@@ -1,8 +1,10 @@
-﻿namespace Assets
+﻿using System;
+
+namespace Assets
 {
     public static class Item
     {
-
+        private const string PrefabDir = "Prefabs";
         public enum Id
         {
             None=0,
@@ -42,17 +44,17 @@
             switch (item)
             {
                 case Id.Health:
-                    return "Prefabs/Health";
+                    return $"{PrefabDir}/{Id.Health}";
                 case Id.Health2:
-                    return "Prefabs/Health2";
+                    return $"{PrefabDir}/{Id.Health2}";
                 case Id.Health3:
-                    return "Prefabs/Health3";
+                    return $"{PrefabDir}/{Id.Health3}";
                 case Id.Shot1:
-                    return "Prefabs/Shot1";
+                    return $"{PrefabDir}/{Id.Shot1}";
                 case Id.Shot2:
-                    return "Prefabs/Shot2";
+                    return $"{PrefabDir}/{Id.Shot2}";
                 case Id.Shot3:
-                    return "Prefabs/Shot3";
+                    return $"{PrefabDir}/{Id.Shot3}";
                 default:
                     return null;
             }
