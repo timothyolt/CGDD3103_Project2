@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Runtime.CompilerServices;
 
 namespace Assets
 {
@@ -40,7 +41,6 @@ namespace Assets
 
         public static string GetPrefabResource(Id item)
         {
-            // ReSharper disable once SwitchStatementMissingSomeCases
             switch (item)
             {
                 case Id.Health:

@@ -1,54 +1,5 @@
 ********************************************************************************
-*                     Friday, October 28, 2016 11:29:57 PM                     *
-********************************************************************************
-CSharpCompilerWrapper.exe version: 1.10.0.0
-Platform: Windows
-Target assembly: Assembly-CSharp-firstpass.dll
-Project directory: C:\Users\Tim Oltjenbruns\Documents\GitHub\CGDD3103_Project2
-Unity 'Data' or 'Frameworks' directory: C:/Program Files/Unity/Editor/Data
-Compiler: Microsoft C# 6.0
-
-- Compilation -----------------------------------------------
-
-Process: C:\Users\Tim Oltjenbruns\Documents\GitHub\CGDD3103_Project2\CSharp60Support\Roslyn\csc.exe
-Arguments: -nostdlib+ -noconfig -nologo -r:"C:/Program Files/Unity/Editor/Data\Mono/lib/mono/2.0/mscorlib.dll" -r:"C:/Program Files/Unity/Editor/Data\Mono/lib/mono/2.0/System.dll" -r:"C:/Program Files/Unity/Editor/Data\Mono/lib/mono/2.0/System.Core.dll" -r:"C:/Program Files/Unity/Editor/Data\Mono/lib/mono/2.0/System.Xml.dll" @Temp/UnityTempFile-196931d4499afce4ab6b9de6a187793e
-Exit code: 0
-Elapsed time: 2.27 sec
-
-- Compiler output (0 lines):
-
-- Compiler errors (20 lines):
-0: Assets\Standard Assets\Characters\ThirdPersonCharacter\Scripts\ThirdPersonUserControl.cs(51,18): warning CS0219: The variable 'move' is assigned but its value is never used
-1: Assets\Standard Assets\Characters\FirstPersonCharacter\Scripts\FirstPersonController.cs(18,40): warning CS0649: Field 'FirstPersonController.m_StickToGroundForce' is never assigned to, and will always have its default value 0
-2: Assets\Standard Assets\Characters\FirstPersonCharacter\Scripts\FirstPersonController.cs(15,40): warning CS0649: Field 'FirstPersonController.m_RunSpeed' is never assigned to, and will always have its default value 0
-3: Assets\Standard Assets\Characters\FirstPersonCharacter\Scripts\FirstPersonController.cs(21,39): warning CS0649: Field 'FirstPersonController.m_UseFovKick' is never assigned to, and will always have its default value false
-4: Assets\Standard Assets\Characters\FirstPersonCharacter\Scripts\FirstPersonController.cs(28,44): warning CS0649: Field 'FirstPersonController.m_JumpSound' is never assigned to, and will always have its default value null
-5: Assets\Standard Assets\Utility\WaypointProgressTracker.cs(14,50): warning CS0649: Field 'WaypointProgressTracker.circuit' is never assigned to, and will always have its default value null
-6: Assets\Standard Assets\Characters\FirstPersonCharacter\Scripts\FirstPersonController.cs(19,40): warning CS0649: Field 'FirstPersonController.m_GravityMultiplier' is never assigned to, and will always have its default value 0
-7: Assets\Standard Assets\Characters\FirstPersonCharacter\Scripts\FirstPersonController.cs(23,39): warning CS0649: Field 'FirstPersonController.m_UseHeadBob' is never assigned to, and will always have its default value false
-8: Assets\Standard Assets\Utility\SmoothFollow.cs(19,17): warning CS0649: Field 'SmoothFollow.rotationDamping' is never assigned to, and will always have its default value 0
-9: Assets\Standard Assets\Characters\FirstPersonCharacter\Scripts\FirstPersonController.cs(14,40): warning CS0649: Field 'FirstPersonController.m_WalkSpeed' is never assigned to, and will always have its default value 0
-10: Assets\Standard Assets\Utility\SmoothFollow.cs(21,17): warning CS0649: Field 'SmoothFollow.heightDamping' is never assigned to, and will always have its default value 0
-11: Assets\Standard Assets\Utility\SmoothFollow.cs(10,21): warning CS0649: Field 'SmoothFollow.target' is never assigned to, and will always have its default value null
-12: Assets\Standard Assets\Characters\FirstPersonCharacter\Scripts\FirstPersonController.cs(27,46): warning CS0649: Field 'FirstPersonController.m_FootstepSounds' is never assigned to, and will always have its default value null
-13: Assets\Standard Assets\Characters\FirstPersonCharacter\Scripts\FirstPersonController.cs(16,56): warning CS0649: Field 'FirstPersonController.m_RunstepLenghten' is never assigned to, and will always have its default value 0
-14: Assets\Standard Assets\Characters\FirstPersonCharacter\Scripts\FirstPersonController.cs(29,44): warning CS0649: Field 'FirstPersonController.m_LandSound' is never assigned to, and will always have its default value null
-15: Assets\Standard Assets\Utility\PlatformSpecificContent.cs(21,51): warning CS0649: Field 'PlatformSpecificContent.m_BuildTargetGroup' is never assigned to, and will always have its default value
-16: Assets\Standard Assets\Characters\FirstPersonCharacter\Scripts\FirstPersonController.cs(20,44): warning CS0649: Field 'FirstPersonController.m_MouseLook' is never assigned to, and will always have its default value null
-17: Assets\Standard Assets\Characters\FirstPersonCharacter\Scripts\FirstPersonController.cs(17,40): warning CS0649: Field 'FirstPersonController.m_JumpSpeed' is never assigned to, and will always have its default value 0
-18: Assets\Standard Assets\Utility\PlatformSpecificContent.cs(24,39): warning CS0649: Field 'PlatformSpecificContent.m_ChildrenOfThisObject' is never assigned to, and will always have its default value false
-19: Assets\Standard Assets\Characters\FirstPersonCharacter\Scripts\FirstPersonController.cs(26,40): warning CS0649: Field 'FirstPersonController.m_StepInterval' is never assigned to, and will always have its default value 0
-
-- PDB to MDB conversion --------------------------------------
-
-Process: C:\Users\Tim Oltjenbruns\Documents\GitHub\CGDD3103_Project2\CSharp60Support\Roslyn\pdb2mdb.exe
-Arguments: Temp\Assembly-CSharp-firstpass.dll
-Exit code: 0
-Elapsed time: 0.54 sec
-
-- pdb2mdb.exe output (0 lines):
-********************************************************************************
-*                     Friday, October 28, 2016 11:30:01 PM                     *
+*                    Tuesday, November 01, 2016 2:50:10 PM                     *
 ********************************************************************************
 CSharpCompilerWrapper.exe version: 1.10.0.0
 Platform: Windows
@@ -60,9 +11,127 @@ Compiler: Microsoft C# 6.0
 - Compilation -----------------------------------------------
 
 Process: C:\Users\Tim Oltjenbruns\Documents\GitHub\CGDD3103_Project2\CSharp60Support\Roslyn\csc.exe
-Arguments: -nostdlib+ -noconfig -nologo -r:"C:/Program Files/Unity/Editor/Data\Mono/lib/mono/2.0/mscorlib.dll" -r:"C:/Program Files/Unity/Editor/Data\Mono/lib/mono/2.0/System.dll" -r:"C:/Program Files/Unity/Editor/Data\Mono/lib/mono/2.0/System.Core.dll" -r:"C:/Program Files/Unity/Editor/Data\Mono/lib/mono/2.0/System.Xml.dll" @Temp/UnityTempFile-a23263dae0a224743bb2afdb8d3ab8a6
+Arguments: -nostdlib+ -noconfig -nologo -r:"C:/Program Files/Unity/Editor/Data\Mono/lib/mono/2.0/mscorlib.dll" -r:"C:/Program Files/Unity/Editor/Data\Mono/lib/mono/2.0/System.dll" -r:"C:/Program Files/Unity/Editor/Data\Mono/lib/mono/2.0/System.Core.dll" -r:"C:/Program Files/Unity/Editor/Data\Mono/lib/mono/2.0/System.Xml.dll" @Temp/UnityTempFile-eff9237fc2058f64bac28d0ac605eb94
 Exit code: 0
-Elapsed time: 0.96 sec
+Elapsed time: 1.64 sec
+
+- Compiler output (0 lines):
+
+- Compiler errors (0 lines):
+
+- PDB to MDB conversion --------------------------------------
+
+Process: C:\Users\Tim Oltjenbruns\Documents\GitHub\CGDD3103_Project2\CSharp60Support\Roslyn\pdb2mdb.exe
+Arguments: Temp\Assembly-CSharp.dll
+Exit code: 0
+Elapsed time: 0.47 sec
+
+- pdb2mdb.exe output (0 lines):
+********************************************************************************
+*                    Tuesday, November 01, 2016 2:50:13 PM                     *
+********************************************************************************
+CSharpCompilerWrapper.exe version: 1.10.0.0
+Platform: Windows
+Target assembly: Assembly-CSharp-Editor.dll
+Project directory: C:\Users\Tim Oltjenbruns\Documents\GitHub\CGDD3103_Project2
+Unity 'Data' or 'Frameworks' directory: C:/Program Files/Unity/Editor/Data
+Compiler: Microsoft C# 6.0
+
+- Compilation -----------------------------------------------
+
+Process: C:\Users\Tim Oltjenbruns\Documents\GitHub\CGDD3103_Project2\CSharp60Support\Roslyn\csc.exe
+Arguments: -nostdlib+ -noconfig -nologo -r:"C:/Program Files/Unity/Editor/Data\Mono/lib/mono/2.0/mscorlib.dll" -r:"C:/Program Files/Unity/Editor/Data\Mono/lib/mono/2.0/System.dll" -r:"C:/Program Files/Unity/Editor/Data\Mono/lib/mono/2.0/System.Core.dll" -r:"C:/Program Files/Unity/Editor/Data\Mono/lib/mono/2.0/System.Xml.dll" @Temp/UnityTempFile-58af12456f8cf664fbf7ff6930b684f3
+Exit code: 0
+Elapsed time: 0.85 sec
+
+- Compiler output (0 lines):
+
+- Compiler errors (1 line):
+0: Assets\usfxr\Scripts\usfxr\Editor\SfxrGenerator.cs(69,3): warning CS0618: 'EditorWindow.title' is obsolete: 'Use titleContent instead (it supports setting a title icon as well).'
+
+- PDB to MDB conversion --------------------------------------
+
+Process: C:\Users\Tim Oltjenbruns\Documents\GitHub\CGDD3103_Project2\CSharp60Support\Roslyn\pdb2mdb.exe
+Arguments: Temp\Assembly-CSharp-Editor.dll
+Exit code: 0
+Elapsed time: 0.07 sec
+
+- pdb2mdb.exe output (0 lines):
+********************************************************************************
+*                    Tuesday, November 01, 2016 2:50:31 PM                     *
+********************************************************************************
+CSharpCompilerWrapper.exe version: 1.10.0.0
+Platform: Windows
+Target assembly: Assembly-CSharp.dll
+Project directory: C:\Users\Tim Oltjenbruns\Documents\GitHub\CGDD3103_Project2
+Unity 'Data' or 'Frameworks' directory: C:/Program Files/Unity/Editor/Data
+Compiler: Microsoft C# 6.0
+
+- Compilation -----------------------------------------------
+
+Process: C:\Users\Tim Oltjenbruns\Documents\GitHub\CGDD3103_Project2\CSharp60Support\Roslyn\csc.exe
+Arguments: -nostdlib+ -noconfig -nologo -r:"C:/Program Files/Unity/Editor/Data\Mono/lib/mono/2.0/mscorlib.dll" -r:"C:/Program Files/Unity/Editor/Data\Mono/lib/mono/2.0/System.dll" -r:"C:/Program Files/Unity/Editor/Data\Mono/lib/mono/2.0/System.Core.dll" -r:"C:/Program Files/Unity/Editor/Data\Mono/lib/mono/2.0/System.Xml.dll" @Temp/UnityTempFile-9672e4bd7369e52498f7d8e6aa2f85ee
+Exit code: 0
+Elapsed time: 0.85 sec
+
+- Compiler output (0 lines):
+
+- Compiler errors (0 lines):
+
+- PDB to MDB conversion --------------------------------------
+
+Process: C:\Users\Tim Oltjenbruns\Documents\GitHub\CGDD3103_Project2\CSharp60Support\Roslyn\pdb2mdb.exe
+Arguments: Temp\Assembly-CSharp.dll
+Exit code: 0
+Elapsed time: 0.07 sec
+
+- pdb2mdb.exe output (0 lines):
+********************************************************************************
+*                    Tuesday, November 01, 2016 2:50:33 PM                     *
+********************************************************************************
+CSharpCompilerWrapper.exe version: 1.10.0.0
+Platform: Windows
+Target assembly: Assembly-CSharp-Editor.dll
+Project directory: C:\Users\Tim Oltjenbruns\Documents\GitHub\CGDD3103_Project2
+Unity 'Data' or 'Frameworks' directory: C:/Program Files/Unity/Editor/Data
+Compiler: Microsoft C# 6.0
+
+- Compilation -----------------------------------------------
+
+Process: C:\Users\Tim Oltjenbruns\Documents\GitHub\CGDD3103_Project2\CSharp60Support\Roslyn\csc.exe
+Arguments: -nostdlib+ -noconfig -nologo -r:"C:/Program Files/Unity/Editor/Data\Mono/lib/mono/2.0/mscorlib.dll" -r:"C:/Program Files/Unity/Editor/Data\Mono/lib/mono/2.0/System.dll" -r:"C:/Program Files/Unity/Editor/Data\Mono/lib/mono/2.0/System.Core.dll" -r:"C:/Program Files/Unity/Editor/Data\Mono/lib/mono/2.0/System.Xml.dll" @Temp/UnityTempFile-ac0530fe56b916648a60b838ab38baa2
+Exit code: 0
+Elapsed time: 0.61 sec
+
+- Compiler output (0 lines):
+
+- Compiler errors (1 line):
+0: Assets\usfxr\Scripts\usfxr\Editor\SfxrGenerator.cs(69,3): warning CS0618: 'EditorWindow.title' is obsolete: 'Use titleContent instead (it supports setting a title icon as well).'
+
+- PDB to MDB conversion --------------------------------------
+
+Process: C:\Users\Tim Oltjenbruns\Documents\GitHub\CGDD3103_Project2\CSharp60Support\Roslyn\pdb2mdb.exe
+Arguments: Temp\Assembly-CSharp-Editor.dll
+Exit code: 0
+Elapsed time: 0.06 sec
+
+- pdb2mdb.exe output (0 lines):
+********************************************************************************
+*                    Tuesday, November 01, 2016 2:54:09 PM                     *
+********************************************************************************
+CSharpCompilerWrapper.exe version: 1.10.0.0
+Platform: Windows
+Target assembly: Assembly-CSharp.dll
+Project directory: C:\Users\Tim Oltjenbruns\Documents\GitHub\CGDD3103_Project2
+Unity 'Data' or 'Frameworks' directory: C:/Program Files/Unity/Editor/Data
+Compiler: Microsoft C# 6.0
+
+- Compilation -----------------------------------------------
+
+Process: C:\Users\Tim Oltjenbruns\Documents\GitHub\CGDD3103_Project2\CSharp60Support\Roslyn\csc.exe
+Arguments: -nostdlib+ -noconfig -nologo -r:"C:/Program Files/Unity/Editor/Data\Mono/lib/mono/2.0/mscorlib.dll" -r:"C:/Program Files/Unity/Editor/Data\Mono/lib/mono/2.0/System.dll" -r:"C:/Program Files/Unity/Editor/Data\Mono/lib/mono/2.0/System.Core.dll" -r:"C:/Program Files/Unity/Editor/Data\Mono/lib/mono/2.0/System.Xml.dll" @Temp/UnityTempFile-9520ecbc8d9053d4f99013a19509df9d
+Exit code: 0
+Elapsed time: 0.84 sec
 
 - Compiler output (0 lines):
 
@@ -77,7 +146,7 @@ Elapsed time: 0.08 sec
 
 - pdb2mdb.exe output (0 lines):
 ********************************************************************************
-*                     Friday, October 28, 2016 11:30:03 PM                     *
+*                    Tuesday, November 01, 2016 2:54:10 PM                     *
 ********************************************************************************
 CSharpCompilerWrapper.exe version: 1.10.0.0
 Platform: Windows
@@ -89,9 +158,304 @@ Compiler: Microsoft C# 6.0
 - Compilation -----------------------------------------------
 
 Process: C:\Users\Tim Oltjenbruns\Documents\GitHub\CGDD3103_Project2\CSharp60Support\Roslyn\csc.exe
-Arguments: -nostdlib+ -noconfig -nologo -r:"C:/Program Files/Unity/Editor/Data\Mono/lib/mono/2.0/mscorlib.dll" -r:"C:/Program Files/Unity/Editor/Data\Mono/lib/mono/2.0/System.dll" -r:"C:/Program Files/Unity/Editor/Data\Mono/lib/mono/2.0/System.Core.dll" -r:"C:/Program Files/Unity/Editor/Data\Mono/lib/mono/2.0/System.Xml.dll" @Temp/UnityTempFile-8b41c57065751dd4a916a50665d88349
+Arguments: -nostdlib+ -noconfig -nologo -r:"C:/Program Files/Unity/Editor/Data\Mono/lib/mono/2.0/mscorlib.dll" -r:"C:/Program Files/Unity/Editor/Data\Mono/lib/mono/2.0/System.dll" -r:"C:/Program Files/Unity/Editor/Data\Mono/lib/mono/2.0/System.Core.dll" -r:"C:/Program Files/Unity/Editor/Data\Mono/lib/mono/2.0/System.Xml.dll" @Temp/UnityTempFile-e82e84f7ee2e1c145a839a785ecbce2f
+Exit code: 0
+Elapsed time: 0.64 sec
+
+- Compiler output (0 lines):
+
+- Compiler errors (1 line):
+0: Assets\usfxr\Scripts\usfxr\Editor\SfxrGenerator.cs(69,3): warning CS0618: 'EditorWindow.title' is obsolete: 'Use titleContent instead (it supports setting a title icon as well).'
+
+- PDB to MDB conversion --------------------------------------
+
+Process: C:\Users\Tim Oltjenbruns\Documents\GitHub\CGDD3103_Project2\CSharp60Support\Roslyn\pdb2mdb.exe
+Arguments: Temp\Assembly-CSharp-Editor.dll
+Exit code: 0
+Elapsed time: 0.09 sec
+
+- pdb2mdb.exe output (0 lines):
+********************************************************************************
+*                    Tuesday, November 01, 2016 2:54:41 PM                     *
+********************************************************************************
+CSharpCompilerWrapper.exe version: 1.10.0.0
+Platform: Windows
+Target assembly: Assembly-CSharp.dll
+Project directory: C:\Users\Tim Oltjenbruns\Documents\GitHub\CGDD3103_Project2
+Unity 'Data' or 'Frameworks' directory: C:/Program Files/Unity/Editor/Data
+Compiler: Microsoft C# 6.0
+
+- Compilation -----------------------------------------------
+
+Process: C:\Users\Tim Oltjenbruns\Documents\GitHub\CGDD3103_Project2\CSharp60Support\Roslyn\csc.exe
+Arguments: -nostdlib+ -noconfig -nologo -r:"C:/Program Files/Unity/Editor/Data\Mono/lib/mono/2.0/mscorlib.dll" -r:"C:/Program Files/Unity/Editor/Data\Mono/lib/mono/2.0/System.dll" -r:"C:/Program Files/Unity/Editor/Data\Mono/lib/mono/2.0/System.Core.dll" -r:"C:/Program Files/Unity/Editor/Data\Mono/lib/mono/2.0/System.Xml.dll" @Temp/UnityTempFile-b4d1d6b337c73fc4495700b0d0ea41b6
+Exit code: 0
+Elapsed time: 0.83 sec
+
+- Compiler output (0 lines):
+
+- Compiler errors (0 lines):
+
+- PDB to MDB conversion --------------------------------------
+
+Process: C:\Users\Tim Oltjenbruns\Documents\GitHub\CGDD3103_Project2\CSharp60Support\Roslyn\pdb2mdb.exe
+Arguments: Temp\Assembly-CSharp.dll
+Exit code: 0
+Elapsed time: 0.07 sec
+
+- pdb2mdb.exe output (0 lines):
+********************************************************************************
+*                    Tuesday, November 01, 2016 2:54:43 PM                     *
+********************************************************************************
+CSharpCompilerWrapper.exe version: 1.10.0.0
+Platform: Windows
+Target assembly: Assembly-CSharp-Editor.dll
+Project directory: C:\Users\Tim Oltjenbruns\Documents\GitHub\CGDD3103_Project2
+Unity 'Data' or 'Frameworks' directory: C:/Program Files/Unity/Editor/Data
+Compiler: Microsoft C# 6.0
+
+- Compilation -----------------------------------------------
+
+Process: C:\Users\Tim Oltjenbruns\Documents\GitHub\CGDD3103_Project2\CSharp60Support\Roslyn\csc.exe
+Arguments: -nostdlib+ -noconfig -nologo -r:"C:/Program Files/Unity/Editor/Data\Mono/lib/mono/2.0/mscorlib.dll" -r:"C:/Program Files/Unity/Editor/Data\Mono/lib/mono/2.0/System.dll" -r:"C:/Program Files/Unity/Editor/Data\Mono/lib/mono/2.0/System.Core.dll" -r:"C:/Program Files/Unity/Editor/Data\Mono/lib/mono/2.0/System.Xml.dll" @Temp/UnityTempFile-3904f4b8feba44a479b20565624869ad
+Exit code: 0
+Elapsed time: 0.60 sec
+
+- Compiler output (0 lines):
+
+- Compiler errors (1 line):
+0: Assets\usfxr\Scripts\usfxr\Editor\SfxrGenerator.cs(69,3): warning CS0618: 'EditorWindow.title' is obsolete: 'Use titleContent instead (it supports setting a title icon as well).'
+
+- PDB to MDB conversion --------------------------------------
+
+Process: C:\Users\Tim Oltjenbruns\Documents\GitHub\CGDD3103_Project2\CSharp60Support\Roslyn\pdb2mdb.exe
+Arguments: Temp\Assembly-CSharp-Editor.dll
+Exit code: 0
+Elapsed time: 0.07 sec
+
+- pdb2mdb.exe output (0 lines):
+********************************************************************************
+*                    Tuesday, November 01, 2016 2:55:18 PM                     *
+********************************************************************************
+CSharpCompilerWrapper.exe version: 1.10.0.0
+Platform: Windows
+Target assembly: Assembly-CSharp.dll
+Project directory: C:\Users\Tim Oltjenbruns\Documents\GitHub\CGDD3103_Project2
+Unity 'Data' or 'Frameworks' directory: C:/Program Files/Unity/Editor/Data
+Compiler: Microsoft C# 6.0
+
+- Compilation -----------------------------------------------
+
+Process: C:\Users\Tim Oltjenbruns\Documents\GitHub\CGDD3103_Project2\CSharp60Support\Roslyn\csc.exe
+Arguments: -nostdlib+ -noconfig -nologo -r:"C:/Program Files/Unity/Editor/Data\Mono/lib/mono/2.0/mscorlib.dll" -r:"C:/Program Files/Unity/Editor/Data\Mono/lib/mono/2.0/System.dll" -r:"C:/Program Files/Unity/Editor/Data\Mono/lib/mono/2.0/System.Core.dll" -r:"C:/Program Files/Unity/Editor/Data\Mono/lib/mono/2.0/System.Xml.dll" @Temp/UnityTempFile-3141c938cffe0134681349459721c8d7
+Exit code: 0
+Elapsed time: 0.77 sec
+
+- Compiler output (0 lines):
+
+- Compiler errors (0 lines):
+
+- PDB to MDB conversion --------------------------------------
+
+Process: C:\Users\Tim Oltjenbruns\Documents\GitHub\CGDD3103_Project2\CSharp60Support\Roslyn\pdb2mdb.exe
+Arguments: Temp\Assembly-CSharp.dll
+Exit code: 0
+Elapsed time: 0.09 sec
+
+- pdb2mdb.exe output (0 lines):
+********************************************************************************
+*                    Tuesday, November 01, 2016 2:55:20 PM                     *
+********************************************************************************
+CSharpCompilerWrapper.exe version: 1.10.0.0
+Platform: Windows
+Target assembly: Assembly-CSharp-Editor.dll
+Project directory: C:\Users\Tim Oltjenbruns\Documents\GitHub\CGDD3103_Project2
+Unity 'Data' or 'Frameworks' directory: C:/Program Files/Unity/Editor/Data
+Compiler: Microsoft C# 6.0
+
+- Compilation -----------------------------------------------
+
+Process: C:\Users\Tim Oltjenbruns\Documents\GitHub\CGDD3103_Project2\CSharp60Support\Roslyn\csc.exe
+Arguments: -nostdlib+ -noconfig -nologo -r:"C:/Program Files/Unity/Editor/Data\Mono/lib/mono/2.0/mscorlib.dll" -r:"C:/Program Files/Unity/Editor/Data\Mono/lib/mono/2.0/System.dll" -r:"C:/Program Files/Unity/Editor/Data\Mono/lib/mono/2.0/System.Core.dll" -r:"C:/Program Files/Unity/Editor/Data\Mono/lib/mono/2.0/System.Xml.dll" @Temp/UnityTempFile-33ff2758015fd2f44b4c4045e588780c
+Exit code: 0
+Elapsed time: 0.63 sec
+
+- Compiler output (0 lines):
+
+- Compiler errors (1 line):
+0: Assets\usfxr\Scripts\usfxr\Editor\SfxrGenerator.cs(69,3): warning CS0618: 'EditorWindow.title' is obsolete: 'Use titleContent instead (it supports setting a title icon as well).'
+
+- PDB to MDB conversion --------------------------------------
+
+Process: C:\Users\Tim Oltjenbruns\Documents\GitHub\CGDD3103_Project2\CSharp60Support\Roslyn\pdb2mdb.exe
+Arguments: Temp\Assembly-CSharp-Editor.dll
+Exit code: 0
+Elapsed time: 0.06 sec
+
+- pdb2mdb.exe output (0 lines):
+********************************************************************************
+*                    Tuesday, November 01, 2016 2:59:08 PM                     *
+********************************************************************************
+CSharpCompilerWrapper.exe version: 1.10.0.0
+Platform: Windows
+Target assembly: Assembly-CSharp.dll
+Project directory: C:\Users\Tim Oltjenbruns\Documents\GitHub\CGDD3103_Project2
+Unity 'Data' or 'Frameworks' directory: C:/Program Files/Unity/Editor/Data
+Compiler: Microsoft C# 6.0
+
+- Compilation -----------------------------------------------
+
+Process: C:\Users\Tim Oltjenbruns\Documents\GitHub\CGDD3103_Project2\CSharp60Support\Roslyn\csc.exe
+Arguments: -nostdlib+ -noconfig -nologo -r:"C:/Program Files/Unity/Editor/Data\Mono/lib/mono/2.0/mscorlib.dll" -r:"C:/Program Files/Unity/Editor/Data\Mono/lib/mono/2.0/System.dll" -r:"C:/Program Files/Unity/Editor/Data\Mono/lib/mono/2.0/System.Core.dll" -r:"C:/Program Files/Unity/Editor/Data\Mono/lib/mono/2.0/System.Xml.dll" @Temp/UnityTempFile-fcb036dc639419b40af6357ffbe5514e
 Exit code: 0
 Elapsed time: 0.85 sec
+
+- Compiler output (0 lines):
+
+- Compiler errors (0 lines):
+
+- PDB to MDB conversion --------------------------------------
+
+Process: C:\Users\Tim Oltjenbruns\Documents\GitHub\CGDD3103_Project2\CSharp60Support\Roslyn\pdb2mdb.exe
+Arguments: Temp\Assembly-CSharp.dll
+Exit code: 0
+Elapsed time: 0.08 sec
+
+- pdb2mdb.exe output (0 lines):
+********************************************************************************
+*                    Tuesday, November 01, 2016 2:59:10 PM                     *
+********************************************************************************
+CSharpCompilerWrapper.exe version: 1.10.0.0
+Platform: Windows
+Target assembly: Assembly-CSharp-Editor.dll
+Project directory: C:\Users\Tim Oltjenbruns\Documents\GitHub\CGDD3103_Project2
+Unity 'Data' or 'Frameworks' directory: C:/Program Files/Unity/Editor/Data
+Compiler: Microsoft C# 6.0
+
+- Compilation -----------------------------------------------
+
+Process: C:\Users\Tim Oltjenbruns\Documents\GitHub\CGDD3103_Project2\CSharp60Support\Roslyn\csc.exe
+Arguments: -nostdlib+ -noconfig -nologo -r:"C:/Program Files/Unity/Editor/Data\Mono/lib/mono/2.0/mscorlib.dll" -r:"C:/Program Files/Unity/Editor/Data\Mono/lib/mono/2.0/System.dll" -r:"C:/Program Files/Unity/Editor/Data\Mono/lib/mono/2.0/System.Core.dll" -r:"C:/Program Files/Unity/Editor/Data\Mono/lib/mono/2.0/System.Xml.dll" @Temp/UnityTempFile-0ac5b6490152bb4429545dd952f65d4f
+Exit code: 0
+Elapsed time: 0.60 sec
+
+- Compiler output (0 lines):
+
+- Compiler errors (1 line):
+0: Assets\usfxr\Scripts\usfxr\Editor\SfxrGenerator.cs(69,3): warning CS0618: 'EditorWindow.title' is obsolete: 'Use titleContent instead (it supports setting a title icon as well).'
+
+- PDB to MDB conversion --------------------------------------
+
+Process: C:\Users\Tim Oltjenbruns\Documents\GitHub\CGDD3103_Project2\CSharp60Support\Roslyn\pdb2mdb.exe
+Arguments: Temp\Assembly-CSharp-Editor.dll
+Exit code: 0
+Elapsed time: 0.07 sec
+
+- pdb2mdb.exe output (0 lines):
+********************************************************************************
+*                    Tuesday, November 01, 2016 3:01:00 PM                     *
+********************************************************************************
+CSharpCompilerWrapper.exe version: 1.10.0.0
+Platform: Windows
+Target assembly: Assembly-CSharp.dll
+Project directory: C:\Users\Tim Oltjenbruns\Documents\GitHub\CGDD3103_Project2
+Unity 'Data' or 'Frameworks' directory: C:/Program Files/Unity/Editor/Data
+Compiler: Microsoft C# 6.0
+
+- Compilation -----------------------------------------------
+
+Process: C:\Users\Tim Oltjenbruns\Documents\GitHub\CGDD3103_Project2\CSharp60Support\Roslyn\csc.exe
+Arguments: -nostdlib+ -noconfig -nologo -r:"C:/Program Files/Unity/Editor/Data\Mono/lib/mono/2.0/mscorlib.dll" -r:"C:/Program Files/Unity/Editor/Data\Mono/lib/mono/2.0/System.dll" -r:"C:/Program Files/Unity/Editor/Data\Mono/lib/mono/2.0/System.Core.dll" -r:"C:/Program Files/Unity/Editor/Data\Mono/lib/mono/2.0/System.Xml.dll" @Temp/UnityTempFile-fb444ff2444c6d545b22431f4db602bc
+Exit code: 0
+Elapsed time: 0.82 sec
+
+- Compiler output (0 lines):
+
+- Compiler errors (0 lines):
+
+- PDB to MDB conversion --------------------------------------
+
+Process: C:\Users\Tim Oltjenbruns\Documents\GitHub\CGDD3103_Project2\CSharp60Support\Roslyn\pdb2mdb.exe
+Arguments: Temp\Assembly-CSharp.dll
+Exit code: 0
+Elapsed time: 0.07 sec
+
+- pdb2mdb.exe output (0 lines):
+********************************************************************************
+*                    Tuesday, November 01, 2016 3:01:01 PM                     *
+********************************************************************************
+CSharpCompilerWrapper.exe version: 1.10.0.0
+Platform: Windows
+Target assembly: Assembly-CSharp-Editor.dll
+Project directory: C:\Users\Tim Oltjenbruns\Documents\GitHub\CGDD3103_Project2
+Unity 'Data' or 'Frameworks' directory: C:/Program Files/Unity/Editor/Data
+Compiler: Microsoft C# 6.0
+
+- Compilation -----------------------------------------------
+
+Process: C:\Users\Tim Oltjenbruns\Documents\GitHub\CGDD3103_Project2\CSharp60Support\Roslyn\csc.exe
+Arguments: -nostdlib+ -noconfig -nologo -r:"C:/Program Files/Unity/Editor/Data\Mono/lib/mono/2.0/mscorlib.dll" -r:"C:/Program Files/Unity/Editor/Data\Mono/lib/mono/2.0/System.dll" -r:"C:/Program Files/Unity/Editor/Data\Mono/lib/mono/2.0/System.Core.dll" -r:"C:/Program Files/Unity/Editor/Data\Mono/lib/mono/2.0/System.Xml.dll" @Temp/UnityTempFile-95747973343354d43abf9ee7c6275fb4
+Exit code: 0
+Elapsed time: 0.61 sec
+
+- Compiler output (0 lines):
+
+- Compiler errors (1 line):
+0: Assets\usfxr\Scripts\usfxr\Editor\SfxrGenerator.cs(69,3): warning CS0618: 'EditorWindow.title' is obsolete: 'Use titleContent instead (it supports setting a title icon as well).'
+
+- PDB to MDB conversion --------------------------------------
+
+Process: C:\Users\Tim Oltjenbruns\Documents\GitHub\CGDD3103_Project2\CSharp60Support\Roslyn\pdb2mdb.exe
+Arguments: Temp\Assembly-CSharp-Editor.dll
+Exit code: 0
+Elapsed time: 0.06 sec
+
+- pdb2mdb.exe output (0 lines):
+********************************************************************************
+*                    Tuesday, November 01, 2016 3:02:46 PM                     *
+********************************************************************************
+CSharpCompilerWrapper.exe version: 1.10.0.0
+Platform: Windows
+Target assembly: Assembly-CSharp.dll
+Project directory: C:\Users\Tim Oltjenbruns\Documents\GitHub\CGDD3103_Project2
+Unity 'Data' or 'Frameworks' directory: C:/Program Files/Unity/Editor/Data
+Compiler: Microsoft C# 6.0
+
+- Compilation -----------------------------------------------
+
+Process: C:\Users\Tim Oltjenbruns\Documents\GitHub\CGDD3103_Project2\CSharp60Support\Roslyn\csc.exe
+Arguments: -nostdlib+ -noconfig -nologo -r:"C:/Program Files/Unity/Editor/Data\Mono/lib/mono/2.0/mscorlib.dll" -r:"C:/Program Files/Unity/Editor/Data\Mono/lib/mono/2.0/System.dll" -r:"C:/Program Files/Unity/Editor/Data\Mono/lib/mono/2.0/System.Core.dll" -r:"C:/Program Files/Unity/Editor/Data\Mono/lib/mono/2.0/System.Xml.dll" @Temp/UnityTempFile-c362daf8c838cc248942e48f24265c09
+Exit code: 0
+Elapsed time: 1.14 sec
+
+- Compiler output (0 lines):
+
+- Compiler errors (0 lines):
+
+- PDB to MDB conversion --------------------------------------
+
+Process: C:\Users\Tim Oltjenbruns\Documents\GitHub\CGDD3103_Project2\CSharp60Support\Roslyn\pdb2mdb.exe
+Arguments: Temp\Assembly-CSharp.dll
+Exit code: 0
+Elapsed time: 0.08 sec
+
+- pdb2mdb.exe output (0 lines):
+********************************************************************************
+*                    Tuesday, November 01, 2016 3:02:49 PM                     *
+********************************************************************************
+CSharpCompilerWrapper.exe version: 1.10.0.0
+Platform: Windows
+Target assembly: Assembly-CSharp-Editor.dll
+Project directory: C:\Users\Tim Oltjenbruns\Documents\GitHub\CGDD3103_Project2
+Unity 'Data' or 'Frameworks' directory: C:/Program Files/Unity/Editor/Data
+Compiler: Microsoft C# 6.0
+
+- Compilation -----------------------------------------------
+
+Process: C:\Users\Tim Oltjenbruns\Documents\GitHub\CGDD3103_Project2\CSharp60Support\Roslyn\csc.exe
+Arguments: -nostdlib+ -noconfig -nologo -r:"C:/Program Files/Unity/Editor/Data\Mono/lib/mono/2.0/mscorlib.dll" -r:"C:/Program Files/Unity/Editor/Data\Mono/lib/mono/2.0/System.dll" -r:"C:/Program Files/Unity/Editor/Data\Mono/lib/mono/2.0/System.Core.dll" -r:"C:/Program Files/Unity/Editor/Data\Mono/lib/mono/2.0/System.Xml.dll" @Temp/UnityTempFile-1c4ae78b267565246bf7b1324001117e
+Exit code: 0
+Elapsed time: 0.65 sec
 
 - Compiler output (0 lines):
 
