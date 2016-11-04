@@ -56,7 +56,7 @@ namespace Assets.Inventory
             GameObject itemDrop;
             if (User == null) return;
             var item = _items[index];
-            switch (item.Item)
+            switch (item?.Item)
             {
                 case Item.Id.Health:
                     User.Health += 10;
@@ -89,7 +89,7 @@ namespace Assets.Inventory
             if (index < 4)
             {
                 //use item from last matching slot
-                item = _items.Last(i => i != null && i.Item == _items[index].Item);
+                item = _items.Last(i => i != null && i.Item == _items[index]?.Item);
                 item.Count--;
                 //delete last matching slot when it runs out
                 if (item.Count <= 0)
