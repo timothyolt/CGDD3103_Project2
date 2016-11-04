@@ -80,3 +80,4 @@ $RECYCLE.BIN/
 # Windows shortcuts
 *.lnk
 CSharp60Support/compilation.log
+*.log
