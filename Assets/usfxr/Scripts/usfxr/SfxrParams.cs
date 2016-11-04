@@ -7,6 +7,7 @@ public class SfxrParams {
 	 *
 	 * Copyright 2010 Thomas Vian
 	 * Copyright 2013 Zeh Fernando
+     * Copyright 2016 Tim Oltjenbruns
 	 *
 	 * Licensed under the Apache License, Version 2.0 (the "License");
 	 * you may not use this file except in compliance with the License.
@@ -28,6 +29,45 @@ public class SfxrParams {
 	 *
 	 * @author Zeh Fernando
 	 */
+
+    public static SfxrParams Lerp(SfxrParams from, SfxrParams to, float pos)
+    {
+        return new SfxrParams
+        {
+            _waveType = pos < 0.5f ? from._waveType : to._waveType,
+            _masterVolume = Mathf.Lerp(from._masterVolume, to._masterVolume, pos),
+            _attackTime = Mathf.Lerp(from._attackTime, to._attackTime, pos),
+            _sustainTime = Mathf.Lerp(from._sustainTime, to._sustainTime, pos),
+            _sustainPunch = Mathf.Lerp(from._sustainPunch, to._sustainPunch, pos),
+            _decayTime = Mathf.Lerp(from._decayTime, to._decayTime, pos),
+            _startFrequency = Mathf.Lerp(from._startFrequency, to._startFrequency, pos),
+            _minFrequency = Mathf.Lerp(from._minFrequency, to._minFrequency, pos),
+            _slide = Mathf.Lerp(from._slide, to._slide, pos),
+            _deltaSlide = Mathf.Lerp(from._deltaSlide, to._deltaSlide, pos),
+            _vibratoDepth = Mathf.Lerp(from._vibratoDepth, to._vibratoDepth, pos),
+            _vibratoSpeed = Mathf.Lerp(from._vibratoSpeed, to._vibratoSpeed, pos),
+            _changeAmount = Mathf.Lerp(from._changeAmount, to._changeAmount, pos),
+            _changeSpeed = Mathf.Lerp(from._changeSpeed, to._changeSpeed, pos),
+            _squareDuty = Mathf.Lerp(from._squareDuty, to._squareDuty, pos),
+            _dutySweep = Mathf.Lerp(from._dutySweep, to._dutySweep, pos),
+            _repeatSpeed = Mathf.Lerp(from._repeatSpeed, to._repeatSpeed, pos),
+            _phaserOffset = Mathf.Lerp(from._phaserOffset, to._phaserOffset, pos),
+            _phaserSweep = Mathf.Lerp(from._phaserSweep, to._phaserSweep, pos),
+            _lpFilterCutoff = Mathf.Lerp(from._lpFilterCutoff, to._lpFilterCutoff, pos),
+            _lpFilterCutoffSweep = Mathf.Lerp(from._lpFilterCutoffSweep, to._lpFilterCutoffSweep, pos),
+            _lpFilterResonance = Mathf.Lerp(from._lpFilterResonance, to._lpFilterResonance, pos),
+            _hpFilterCutoff = Mathf.Lerp(from._hpFilterCutoff, to._hpFilterCutoff, pos),
+            _hpFilterCutoffSweep = Mathf.Lerp(from._hpFilterCutoffSweep, to._hpFilterCutoffSweep, pos),
+            _changeRepeat = Mathf.Lerp(from._changeRepeat, to._changeRepeat, pos),
+            _changeAmount2 = Mathf.Lerp(from._changeAmount2, to._changeAmount2, pos),
+            _changeSpeed2 = Mathf.Lerp(from._changeSpeed2, to._changeSpeed2, pos),
+            _compressionAmount = Mathf.Lerp(from._compressionAmount, to._compressionAmount, pos),
+            _overtones = Mathf.Lerp(from._overtones, to._overtones, pos),
+            _overtoneFalloff = Mathf.Lerp(from._overtoneFalloff, to._overtoneFalloff, pos),
+            _bitCrush = Mathf.Lerp(from._bitCrush, to._bitCrush, pos),
+            _bitCrushSweep = Mathf.Lerp(from._bitCrushSweep, to._bitCrushSweep, pos)
+        };
+    }
 
 	// Properties
 	public bool		paramsDirty;					// Whether the parameters have been changed since last time (shouldn't used cached sound)

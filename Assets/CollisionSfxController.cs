@@ -1,25 +1,43 @@
-﻿using UnityEngine;
+﻿using JetBrains.Annotations;
+using UnityEngine;
 
-public class CollisionSfxController : MonoBehaviour
+namespace Assets
 {
-    public TextAsset SoundEffectFile;
-    public float MinimumSustainTime;
-    public float SustainMultiplier;
-    private SfxrSynth _synth;
-    private float _sustainTime;
-
-    // Use this for initialization
-	void Start () {
-
-        _synth = new SfxrSynth();
-	    _synth.parameters.SetSettingsString(SoundEffectFile.text);
-	    _sustainTime = _synth.parameters.sustainTime;
-    }
-
-    void OnCollisionEnter(Collision collision)
+    public class CollisionSfxController : MonoBehaviour
     {
-        _synth.SetParentTransform(gameObject.transform);
-        _synth.parameters.sustainTime = MinimumSustainTime + _sustainTime*collision.relativeVelocity.sqrMagnitude * SustainMultiplier;
-        _synth.Play();
+        public AudioSource AudioSource;
+        public TextAsset SfxStartParams;
+        public TextAsset SfxStopParams;
+        public float ImpactSquaredMin;
+        public float ImpactSquaredMax;
+
+        private SfxrSynth _synth;
+        private SfxrParams _start;
+        private SfxrParams _stop;
+
+
+        public void UpdateSfx()
+        {
+            (_start = new SfxrParams()).SetSettingsString(SfxStartParams?.text ?? "");
+            (_stop = new SfxrParams()).SetSettingsString(SfxStopParams?.text ?? "");
+        }
+
+        [UsedImplicitly]
+        private void Start () {
+            _synth = new SfxrSynth();
+            if (AudioSource != null)
+                _synth.SetAudioSource(AudioSource);
+            UpdateSfx();
+        }
+
+        [UsedImplicitly]
+        private void OnCollisionEnter(Collision collision)
+        {
+            if (_synth == null) return;
+            _synth.Stop();
+            var lerp = Mathf.Clamp((collision.relativeVelocity.sqrMagnitude - ImpactSquaredMin)/(ImpactSquaredMax - ImpactSquaredMin), 0f, 1f);
+            _synth.parameters = SfxrParams.Lerp(_start, _stop, lerp);
+            _synth.Play();
+        }
     }
 }

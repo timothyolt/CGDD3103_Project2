@@ -8,6 +8,7 @@ public class SfxrSynth {
 	 *
 	 * Copyright 2010 Thomas Vian
 	 * Copyright 2013 Zeh Fernando
+     * Copyright 2016 Tim Oltjenbruns
 	 *
 	 * Licensed under the Apache License, Version 2.0 (the "License");
 	 * you may not use this file except in compliance with the License.
@@ -43,6 +44,8 @@ public class SfxrSynth {
 
 	private GameObject		_gameObject;					// Game object that will contain the audio player script
 	private SfxrAudioPlayer	_audioPlayer;					// Audio player script that will be attached to a GameObject to play the sound
+    private AudioSource _audioSource;                       // Audio source to use instead of On-Demand source creation
+                                                            // Parent transform is ignored when this is used
 
 	private Transform		_parentTransform;				// Parent that will contain the audio (for positional audio)
 
@@ -206,9 +209,8 @@ public class SfxrSynth {
 			_waveData = _cachedWave;
 			_waveDataPos = 0;
 		}
-
+        
 		createGameObject();
-
 	}
 
 	/**
@@ -427,19 +429,32 @@ public class SfxrSynth {
 
 	/**
 	 * Sets the parent transform of this audio, for positional audio
+     * Overrides AudioSource
 	 * @param	__transform		The transform object of the parent
 	 */
 	public void SetParentTransform(Transform __transform) {
 		_parentTransform = __transform;
+	    _audioSource = null;
 	}
 
-	/**
+    /**
+	 * Sets the audio source of this audio, for positional audio
+     * Overrides ParentTransform
+	 * @param	__transform		The transform object of the parent
+	 */
+    public void SetAudioSource(AudioSource __source)
+    {
+        _audioSource = __source;
+        _parentTransform = null;
+    }
+
+    /**
 	 * Returns a ByteArray of the wave in the form of a .wav file, ready to be saved out
 	 * @param	__sampleRate	Sample rate to generate the .wav data at (44100 or 22050, default 44100)
 	 * @param	__bitDepth		Bit depth to generate the .wav at (8 or 16, default 16)
 	 * @return					Wave data (in .wav format) as a byte array
 	 */
-	public byte[] GetWavFile(uint __sampleRate = 44100, uint __bitDepth = 16) {
+    public byte[] GetWavFile(uint __sampleRate = 44100, uint __bitDepth = 16) {
 		Stop();
 
 		Reset(true);
@@ -967,18 +982,27 @@ public class SfxrSynth {
 	}
 
 	private void createGameObject() {
-		// Create a game object to handle playback
-		_gameObject = new GameObject("SfxrGameObject-" + (Time.realtimeSinceStartup));
-		fixGameObjectParent();
-
-		// Create actual audio player
-		_audioPlayer = _gameObject.AddComponent<SfxrAudioPlayer>();
+	    if (_audioSource?.gameObject == null)
+	    {
+	        // Create a game object to handle playback
+	        _gameObject = new GameObject("SfxrGameObject-" + (Time.realtimeSinceStartup));
+	        fixGameObjectParent();
+	        // Create actual audio player
+	        _audioPlayer = _gameObject.AddComponent<SfxrAudioPlayer>();
+	    }
+	    else
+	    {
+	        var existingPlayer = _audioSource.gameObject.GetComponent<SfxrAudioPlayer>();
+            if (existingPlayer != null)
+                existingPlayer.Destroy();
+	        _audioPlayer = _audioSource.gameObject.AddComponent<SfxrAudioPlayer>();
+        }
 		_audioPlayer.SetSfxrSynth(this);
 		_audioPlayer.SetRunningInEditMode(Application.isEditor && !Application.isPlaying);
-	}
+    }
 
 
-	private void fixGameObjectParent() {
+    private void fixGameObjectParent() {
 		// Sets the parent of the game object to be the wanted object
 		Transform transformToUse = _parentTransform;
 

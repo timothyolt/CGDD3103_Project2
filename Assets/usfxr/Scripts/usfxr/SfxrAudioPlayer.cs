@@ -12,6 +12,7 @@ public class SfxrAudioPlayer : MonoBehaviour {
 	 * usfxr
 	 *
 	 * Copyright 2013 Zeh Fernando
+     * Copyright 2016 Tim Oltjenbruns
 	 *
 	 * Licensed under the Apache License, Version 2.0 (the "License");
 	 * you may not use this file except in compliance with the License.
@@ -36,34 +37,48 @@ public class SfxrAudioPlayer : MonoBehaviour {
 
 
 	// Properties
+    public AudioSource Source { get; set; }
 	private bool		isDestroyed = false;		// If true, this instance has been destroyed and shouldn't do anything yes
 	private bool		needsToDestroy = false;		// If true, it has been scheduled for destruction (from outside the main thread)
 	private bool		runningInEditMode = false;	// If true, it is running from the editor and NOT playing
+    private bool destroyScriptOnly; // If true, the parent object was not created by Usfxr, and we should only destroy the script
 
 	// Instances
 	private SfxrSynth	sfxrSynth;					// SfxrSynth instance that will generate the audio samples used by this
+    private bool _traced;
 
 
-	// ================================================================================================================
+    // ================================================================================================================
 	// INTERNAL INTERFACE ---------------------------------------------------------------------------------------------
 
-	void Start() {
-		// Creates an empty audio source so this GameObject can receive audio events
-		AudioSource soundSource = gameObject.AddComponent<AudioSource>();
-		soundSource.clip = new AudioClip();
-		soundSource.volume = 1f;
-		soundSource.pitch = 1f;
-		soundSource.priority = 128;
-		soundSource.Play();
-	}
+	void Start()
+	{
+        if (Source == null)
+            Source = GetComponent<AudioSource>();
+	    if (Source == null)
+	    {
+            // Creates an empty audio source so this GameObject can receive audio events
+            Source = gameObject.AddComponent<AudioSource>();
+            Source.volume = 1f;
+            Source.pitch = 1f;
+            Source.priority = 128;
+        }
+	    else
+	        destroyScriptOnly = true;
+        Source.clip = new AudioClip();
+	    Source.enabled = true;
+        Source.Play();
+    }
 
-	void Update() {
-		// Destroys self in case it has been queued for deletion
-		if (sfxrSynth == null) {
-			// Rogue object (leftover)
-			// When switching between play and edit mode while the sound is playing, the object is restarted
-			// So, queues for destruction
-			needsToDestroy = true;
+	void Update()
+	{
+        // Destroys self in case it has been queued for deletion
+        if (sfxrSynth == null || !(Source?.isPlaying ?? false))
+        {
+            // Rogue object (leftover)
+            // When switching between play and edit mode while the sound is playing, the object is restarted
+            // So, queues for destruction
+            needsToDestroy = true;
 		}
 
 		if (needsToDestroy) {
@@ -71,11 +86,10 @@ public class SfxrAudioPlayer : MonoBehaviour {
 			Destroy();
 		}
 	}
-
+    
 	void OnAudioFilterRead(float[] __data, int __channels) {
-		// Requests the generation of the needed audio data from SfxrSynth
-
-		if (!isDestroyed && !needsToDestroy && sfxrSynth != null) {
+        // Requests the generation of the needed audio data from SfxrSynth
+        if (!isDestroyed && !needsToDestroy && sfxrSynth != null) {
 			bool hasMoreSamples = sfxrSynth.GenerateAudioFilterData(__data, __channels);
 
 			// If no more samples are needed, there's no more need for this GameObject so schedule a destruction (cannot do this in this thread)
@@ -108,6 +122,7 @@ public class SfxrAudioPlayer : MonoBehaviour {
 	}
 
 	public void Destroy() {
+        Source?.Stop();
 		// Stops audio immediately and destroys self
 		if (!isDestroyed) {
 			isDestroyed = true;
@@ -117,10 +132,16 @@ public class SfxrAudioPlayer : MonoBehaviour {
 				#if UNITY_EDITOR
 				EditorApplication.update -= Update;
 				#endif
-				UnityEngine.Object.DestroyImmediate(gameObject);
+                if (destroyScriptOnly)
+                    DestroyImmediate(this);
+                else
+                    DestroyImmediate(gameObject);
 			} else {
-				UnityEngine.Object.Destroy(gameObject);
-			}
+                if (destroyScriptOnly)
+				    Destroy(this);
+                else
+                    Destroy(gameObject);
+            }
 		}
 	}
 }
