@@ -1,17 +1,14 @@
-//Drag n Drop inventory script
-//Timothy Oltjenbruns, 2016
-
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using Assets.Scripts.Ai;
+using JetBrains.Annotations;
 using UnityEngine;
 
 namespace Assets.Scripts.Inventory
 {
     public class Inventory : MonoBehaviour, IEnumerable<InventoryItem>
     {
-
         public InventoryUi InventoryUi;
         public LivingEntity.LivingEntity User;
         private InventoryItem[] _items;
@@ -86,6 +83,10 @@ namespace Assets.Scripts.Inventory
                     if (itemDrop != null && itemDrop.GetComponent<Rigidbody>() != null)
                         itemDrop.GetComponent<Rigidbody>().AddForce(force);
                     break;
+                case null:
+                    throw new NullReferenceException();
+                default:
+                    throw new ArgumentOutOfRangeException();
             }
             if (index < 4)
             {
@@ -120,13 +121,14 @@ namespace Assets.Scripts.Inventory
             _items[fromIndex] = temp;
         }
 
-        // Use this for initialization
-        void Start()
+        [UsedImplicitly]
+        private void Start()
         {
             _items = new InventoryItem[16];
         }
 
-        void OnCollisionEnter(Collision collision)
+        [UsedImplicitly]
+        private void OnCollisionEnter(Collision collision)
         {
             if (collision.gameObject.GetComponent<Rigidbody>() != null &&
                 collision.gameObject.GetComponent<Rigidbody>().velocity.sqrMagnitude > 25) return;

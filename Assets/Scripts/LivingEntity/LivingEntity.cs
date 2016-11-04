@@ -1,12 +1,10 @@
-//Timothy Oltjenbruns
-
+using JetBrains.Annotations;
 using UnityEngine;
 
 namespace Assets.Scripts.LivingEntity
 {
     public class LivingEntity : MonoBehaviour
     {
-
         public Team Team;
         public int HealthRegen;
         public int HealthTimeToHeal;
@@ -29,6 +27,7 @@ namespace Assets.Scripts.LivingEntity
                     _health = HealthMax;
             }
         }
+
         private void TimeHealth()
         {
             TimeSinceDamage += Time.deltaTime;
@@ -36,12 +35,14 @@ namespace Assets.Scripts.LivingEntity
             if (TimeSinceDamage > HealthTimeToHeal && TimeSinceHeal > HealthTimeToHeal && Health < HealthMax)
                 Health += HealthRegen;
         }
-    
-        void Start () {
+
+        [UsedImplicitly]
+        private void Start () {
             Health = HealthMax;
         }
 	
-        void Update () {
+        [UsedImplicitly]
+        private void Update () {
             TimeHealth();
         }
     }

@@ -1,7 +1,4 @@
-﻿//Drag n Drop inventory script
-//Timothy Oltjenbruns, 2016
-
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 

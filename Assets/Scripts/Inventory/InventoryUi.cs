@@ -1,8 +1,5 @@
-﻿//Drag n Drop inventory script
-//Timothy Oltjenbruns, 2016
-
-using System.Diagnostics.CodeAnalysis;
-using System.Linq;
+﻿using System.Linq;
+using JetBrains.Annotations;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -37,17 +34,19 @@ namespace Assets.Scripts.Inventory
                 _open = value;
                 if (_open)
                 {
-                    _activeInventoryOffset = InventoryOffset * 
-                                             (  Inventory.Skip(4).Take(6).Count(item => item != null) == 6 //first row of inventory is full
-                                                || Inventory.Skip(10).Count(item => item != null) > 0 ? 1 : 0.5f); //second row contains anything
+                    _activeInventoryOffset = InventoryOffset*
+                                             (Inventory.Skip(4).Take(6).Count(item => item != null) == 6    //first row of inventory is full
+                                              || Inventory.Skip(10).Count(item => item != null) > 0         //second row contains anything
+                                                 ? 1
+                                                 : 0.5f); 
                     GetComponent<RectTransform>().transform.localPosition += _activeInventoryOffset;
                 }
                 else
                     GetComponent<RectTransform>().transform.localPosition -= _activeInventoryOffset;
             }
         }
-
-        [SuppressMessage("ReSharper", "UnusedMember.Local")]
+        
+        [UsedImplicitly]
         private void Update ()
         {
             if (Input.GetKeyDown(KeyCode.E))
@@ -90,7 +89,6 @@ namespace Assets.Scripts.Inventory
             Destroy(_cursorObject.GetComponent<InventorySlotUi>().Background);
             Destroy(_cursorObject.GetComponent<InventorySlotUi>());
             //float above all other ui elements
-            //_cursorObject.transform.parent = transform;
             _cursorObject.transform.SetParent(transform);
             _cursorObject.transform.SetAsLastSibling();
             //Delete previous item data
@@ -141,7 +139,6 @@ namespace Assets.Scripts.Inventory
         {
             if (slot == null) return;
             if (_cursorItem != null)
-                //Drop items
             {
                 //If quickbar is dropped, drop all items of that type
                 if (slot.Slot < 4)

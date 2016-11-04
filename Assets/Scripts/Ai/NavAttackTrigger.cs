@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using JetBrains.Annotations;
+using UnityEngine;
 
 namespace Assets.Scripts.Ai
 {
@@ -8,7 +9,8 @@ namespace Assets.Scripts.Ai
 
         public LivingEntityNavigator Navigator;
 
-        void OnTriggerEnter(Collider other)
+        [UsedImplicitly]
+        private void OnTriggerEnter(Collider other)
         {
             var livingEntity = other.gameObject.GetComponent<LivingEntity.LivingEntity>();
             if (Navigator == null || livingEntity == null ||
@@ -17,7 +19,8 @@ namespace Assets.Scripts.Ai
             Navigator.Target = livingEntity;
         }
 
-        void OnTriggerExit(Collider other)
+        [UsedImplicitly]
+        private void OnTriggerExit(Collider other)
         {
             var livingEntity = other.gameObject.GetComponentInChildren<LivingEntity.LivingEntity>();
             if (Navigator == null || livingEntity == null || livingEntity != Navigator.Target) return;

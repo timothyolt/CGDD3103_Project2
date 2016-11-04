@@ -1,4 +1,5 @@
 ﻿using Assets.Scripts.Inventory;
+using JetBrains.Annotations;
 using UnityEngine;
 
 namespace Assets.Scripts.Ai
@@ -7,7 +8,9 @@ namespace Assets.Scripts.Ai
     public class GuardNavigator : LivingEntityNavigator
     {
         protected NavMeshAgent NavMeshAgent;
-        void Start ()
+
+        [UsedImplicitly]
+        private void Start ()
         {
             NavMeshAgent = GetComponent<NavMeshAgent>();
         }
@@ -29,7 +32,9 @@ namespace Assets.Scripts.Ai
             forward.y += 1;
             var force = transform.forward;
             force.Scale(new Vector3(500, 1, 500));
-            var itemDrop = Instantiate(Resources.Load<GameObject>(Item.GetPrefabResource(Item.Id.Shot1)), transform.position + forward, transform.rotation) as GameObject;
+            var itemDrop =
+                Instantiate(Resources.Load<GameObject>(Item.GetPrefabResource(Item.Id.Shot1)),
+                    transform.position + forward, transform.rotation) as GameObject;
             if (itemDrop != null && itemDrop.GetComponent<Rigidbody>() != null)
                 itemDrop.GetComponent<Rigidbody>().AddForce(force);
             TimeSinceAttack = 0;

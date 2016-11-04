@@ -5,7 +5,7 @@
         private const string PrefabDir = "Prefabs";
         public enum Id
         {
-            None=0,
+            //None=0,
             Health=1,
             Health2=2,
             Health3=3,
@@ -16,7 +16,6 @@
 
         public static string GetSpriteResource(Id item)
         {
-            // ReSharper disable once SwitchStatementMissingSomeCases
             switch (item)
             {
                 case Id.Health:
@@ -59,7 +58,6 @@
 
         public static string GetName(Id item)
         {
-            // ReSharper disable once SwitchStatementMissingSomeCases
             switch (item)
             {
                 case Id.Health:

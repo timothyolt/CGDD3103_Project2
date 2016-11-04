@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using JetBrains.Annotations;
+using UnityEngine;
 
 namespace Assets.Scripts.Ai
 {
@@ -9,7 +10,8 @@ namespace Assets.Scripts.Ai
         public GameObject Protect;
         public bool CloseEnoughToProtect;
 
-        void Start ()
+        [UsedImplicitly]
+        private void Start ()
         {
             NavMeshAgent = GetComponent<NavMeshAgent>();
             if (Protect.GetComponentInChildren<NavProtectTrigger>() != null)

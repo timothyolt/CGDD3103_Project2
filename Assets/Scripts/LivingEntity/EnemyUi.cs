@@ -1,27 +1,26 @@
-//Timothy Oltjenbruns
-//CGDD3101_Project1
-//Updated 9/12/2016
-
+using JetBrains.Annotations;
 using UnityEngine;
 
 namespace Assets.Scripts.LivingEntity
 {
     public class EnemyUi : MonoBehaviour
     {
-        public LivingEntity enemyLifeScript;
-        private TextMesh textMesh;
-        // Use this for initialization
-        void Start()
+        public LivingEntity EnemyLifeScript;
+        private TextMesh _textMesh;
+
+
+        [UsedImplicitly]
+        private void Start()
         {
-            textMesh = gameObject.GetComponent<TextMesh>();
+            _textMesh = gameObject.GetComponent<TextMesh>();
         }
-	
-        // Update is called once per frame
-        void Update () {
+
+        [UsedImplicitly]
+        private void Update () {
             transform.LookAt(Camera.main.transform);
             transform.Rotate(new Vector3(0, 180f, 0));
-            if (enemyLifeScript != null && textMesh != null)
-                textMesh.text = enemyLifeScript.Health.ToString();
+            if (EnemyLifeScript != null && _textMesh != null)
+                _textMesh.text = EnemyLifeScript.Health.ToString();
         }
     }
 }

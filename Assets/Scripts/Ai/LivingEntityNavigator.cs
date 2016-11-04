@@ -1,4 +1,5 @@
 ﻿using System;
+using JetBrains.Annotations;
 using UnityEngine;
 
 namespace Assets.Scripts.Ai
@@ -13,6 +14,7 @@ namespace Assets.Scripts.Ai
         public TargetAction Action;
         public LivingEntity.LivingEntity Target;
 
+        [UsedImplicitly]
         private void Update ()
         {
             TimeSinceAttack += Time.deltaTime;
@@ -36,10 +38,7 @@ namespace Assets.Scripts.Ai
         }
 
         protected abstract void NoTarget();
-
         protected abstract void Attack();
-
         protected abstract void Seek();
-
     }
 }

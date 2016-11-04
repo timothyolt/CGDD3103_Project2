@@ -1,4 +1,4 @@
-﻿using Assets.Scripts.Ai;
+﻿using JetBrains.Annotations;
 using UnityEngine;
 
 namespace Assets.Scripts.Inventory
@@ -8,22 +8,22 @@ namespace Assets.Scripts.Inventory
         public int Damage;
         public float LifeTime;
 
-        void Update ()
+        [UsedImplicitly]
+        private void Update ()
         {
             LifeTime += Time.deltaTime;
             if (transform.position.y < -1000)
                 Destroy(gameObject);
         }
 
-        void OnCollisionEnter(Collision collision)
+        [UsedImplicitly]
+        private void OnCollisionEnter(Collision collision)
         {
-            if (LifeTime < 5)
-            {
-                var lifeScript = collision.gameObject.GetComponent<LivingEntity.LivingEntity>();
-                if (lifeScript == null) return;
-                lifeScript.Health -= Damage;
-                Destroy(gameObject);
-            }
+            if (!(LifeTime < 5)) return;
+            var lifeScript = collision.gameObject.GetComponent<LivingEntity.LivingEntity>();
+            if (lifeScript == null) return;
+            lifeScript.Health -= Damage;
+            Destroy(gameObject);
         }
     }
 }
