@@ -2,24 +2,20 @@
 using JetBrains.Annotations;
 using UnityEngine;
 
-namespace Assets.Scripts.Ai
-{
+namespace Assets.Scripts.Ai {
     [RequireComponent(typeof(NavMeshAgent))]
     [RequireComponent(typeof(LivingEntity.LivingEntity))]
-    public abstract class LivingEntityNavigator : MonoBehaviour
-    {
-        public float TimeSinceAttack;
+    public abstract class LivingEntityNavigator : MonoBehaviour {
+        public TargetAction Action;
         public float AttackCooldown;
         public int PunchDamage;
-        public TargetAction Action;
         public LivingEntity.LivingEntity Target;
+        public float TimeSinceAttack;
 
         [UsedImplicitly]
-        private void Update ()
-        {
+        private void Update() {
             TimeSinceAttack += Time.deltaTime;
-            switch (Action)
-            {
+            switch (Action) {
                 case TargetAction.NoTarget:
                     NoTarget();
                     break;

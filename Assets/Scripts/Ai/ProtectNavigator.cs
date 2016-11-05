@@ -1,18 +1,15 @@
 ﻿using JetBrains.Annotations;
 using UnityEngine;
 
-namespace Assets.Scripts.Ai
-{
+namespace Assets.Scripts.Ai {
     [RequireComponent(typeof(NavMeshAgent))]
-    public class ProtectNavigator : LivingEntityNavigator
-    {
+    public class ProtectNavigator : LivingEntityNavigator {
+        public bool CloseEnoughToProtect;
         protected NavMeshAgent NavMeshAgent;
         public GameObject Protect;
-        public bool CloseEnoughToProtect;
 
         [UsedImplicitly]
-        private void Start ()
-        {
+        private void Start() {
             NavMeshAgent = GetComponent<NavMeshAgent>();
             if (Protect.GetComponentInChildren<NavProtectTrigger>() != null)
                 Protect.GetComponentInChildren<NavProtectTrigger>().Navigator = this;
@@ -20,11 +17,9 @@ namespace Assets.Scripts.Ai
                 Protect.GetComponentInChildren<NavVisibilityTrigger>().Navigator = this;
         }
 
-        protected override void NoTarget()
-        {
+        protected override void NoTarget() {
             if (Protect == null) return;
-            if (!CloseEnoughToProtect)
-            {
+            if (!CloseEnoughToProtect) {
                 NavMeshAgent.Resume();
                 NavMeshAgent.destination = Protect.transform.position;
             }
@@ -32,10 +27,8 @@ namespace Assets.Scripts.Ai
                 NavMeshAgent.Stop();
         }
 
-        protected override void Attack()
-        {
-            if (Target == null)
-            {
+        protected override void Attack() {
+            if (Target == null) {
                 Action = TargetAction.NoTarget;
                 return;
             }
@@ -44,8 +37,7 @@ namespace Assets.Scripts.Ai
             TimeSinceAttack = 0;
         }
 
-        protected override void Seek()
-        {
+        protected override void Seek() {
             NavMeshAgent.Resume();
             if (Target != null)
                 NavMeshAgent.destination = Target.transform.position;

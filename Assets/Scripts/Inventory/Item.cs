@@ -1,23 +1,19 @@
-﻿namespace Assets.Scripts.Inventory
-{
-    public static class Item
-    {
-        private const string PrefabDir = "Prefabs";
-        public enum Id
-        {
+﻿namespace Assets.Scripts.Inventory {
+    public static class Item {
+        public enum Id {
             //None=0,
-            Health=1,
-            Health2=2,
-            Health3=3,
-            Shot1=4,
-            Shot2=5,
-            Shot3=6,
+            Health = 1,
+            Health2 = 2,
+            Health3 = 3,
+            Shot1 = 4,
+            Shot2 = 5,
+            Shot3 = 6
         }
 
-        public static string GetSpriteResource(Id item)
-        {
-            switch (item)
-            {
+        private const string PrefabDir = "Prefabs";
+
+        public static string GetSpriteResource(Id item) {
+            switch (item) {
                 case Id.Health:
                     return "Sprites/Health";
                 case Id.Health2:
@@ -35,10 +31,8 @@
             }
         }
 
-        public static string GetPrefabResource(Id item)
-        {
-            switch (item)
-            {
+        public static string GetPrefabResource(Id item) {
+            switch (item) {
                 case Id.Health:
                     return $"{PrefabDir}/{Id.Health}";
                 case Id.Health2:
@@ -56,10 +50,8 @@
             }
         }
 
-        public static string GetName(Id item)
-        {
-            switch (item)
-            {
+        public static string GetName(Id item) {
+            switch (item) {
                 case Id.Health:
                     return "Health";
                 case Id.Health2:

@@ -3,52 +3,46 @@ using JetBrains.Annotations;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Assets.Scripts.Inventory
-{
+namespace Assets.Scripts.Inventory {
     [RequireComponent(typeof(RectTransform))]
-    public class InventoryUi : MonoBehaviour
-    {
-        public Vector3 InventoryOffset;
-        public Inventory Inventory;
-        private InventorySlotUi _selectedSlot;
-        private InventoryItem _cursorItem;
-        private InventorySlotUi _cursorSlot;
-        private GameObject _cursorObject;
-
-        public void UpdateInventory(Inventory inventory)
-        {
-            foreach (var inventorySlot in GetComponentsInChildren<InventorySlotUi>())
-            {
-                var item = inventory[inventorySlot.Slot];
-                inventorySlot.UpdateUi(item);
-            }
-        }
-
+    public class InventoryUi : MonoBehaviour {
         private Vector3 _activeInventoryOffset;
+        private InventoryItem _cursorItem;
+        private GameObject _cursorObject;
+        private InventorySlotUi _cursorSlot;
         private bool _open;
-        public bool Open
-        {
+        private InventorySlotUi _selectedSlot;
+        public Inventory Inventory;
+        public Vector3 InventoryOffset;
+
+        public bool Open {
             get { return _open; }
-            set
-            {
+            set {
                 _open = value;
-                if (_open)
-                {
+                if (_open) {
                     _activeInventoryOffset = InventoryOffset*
-                                             (Inventory.Skip(4).Take(6).Count(item => item != null) == 6    //first row of inventory is full
-                                              || Inventory.Skip(10).Count(item => item != null) > 0         //second row contains anything
+                                             (Inventory.Skip(4).Take(6).Count(item => item != null) == 6
+                                              //first row of inventory is full
+                                              || Inventory.Skip(10).Count(item => item != null) > 0
+                                                 //second row contains anything
                                                  ? 1
-                                                 : 0.5f); 
+                                                 : 0.5f);
                     GetComponent<RectTransform>().transform.localPosition += _activeInventoryOffset;
                 }
                 else
                     GetComponent<RectTransform>().transform.localPosition -= _activeInventoryOffset;
             }
         }
-        
+
+        public void UpdateInventory(Inventory inventory) {
+            foreach (var inventorySlot in GetComponentsInChildren<InventorySlotUi>()) {
+                var item = inventory[inventorySlot.Slot];
+                inventorySlot.UpdateUi(item);
+            }
+        }
+
         [UsedImplicitly]
-        private void Update ()
-        {
+        private void Update() {
             if (Input.GetKeyDown(KeyCode.E))
                 Open = !Open;
             if (Inventory == null)
@@ -63,23 +57,22 @@ namespace Assets.Scripts.Inventory
                 Inventory.UseItem(3);
         }
 
-        public void OnInventoryClick(InventorySlotUi slot)
-        {
+        public void OnInventoryClick(InventorySlotUi slot) {
             if (Inventory == null || slot == null) return;
             Inventory.SelectedSlot = slot.Slot;
             Image previousSelectedImage;
-            if (_selectedSlot != null && _selectedSlot.Background != null && (previousSelectedImage = _selectedSlot.Background.GetComponent<Image>()) != null)
+            if (_selectedSlot != null && _selectedSlot.Background != null &&
+                (previousSelectedImage = _selectedSlot.Background.GetComponent<Image>()) != null)
                 previousSelectedImage.color = new Color(1, 1, 1, 100f/256f); //default color
             Image selectedImage;
             if (slot.Background != null && (selectedImage = slot.Background.GetComponent<Image>()) != null)
-                selectedImage.color = new Color(.5f, .5f, 1, 100f / 256f);
+                selectedImage.color = new Color(.5f, .5f, 1, 100f/256f);
             _selectedSlot = slot;
             Inventory.UseItem(_selectedSlot.Slot);
             Debug.Log($"click: #{slot.Slot} {slot.name}");
         }
 
-        public void OnInventoryBeginDrag(InventorySlotUi slot)
-        {
+        public void OnInventoryBeginDrag(InventorySlotUi slot) {
             if (slot == null) return;
             _cursorItem = Inventory[slot.Slot];
             _cursorSlot = slot;
@@ -101,8 +94,7 @@ namespace Assets.Scripts.Inventory
             Debug.Log($"begindrag: #{slot.Slot} {slot.name}");
         }
 
-        public void OnInventoryDrag(InventorySlotUi slot)
-        {
+        public void OnInventoryDrag(InventorySlotUi slot) {
             if (slot == null || _cursorObject == null) return;
             var screenPoint = Input.mousePosition;
             screenPoint.z = 1.8f; //distance of the plane from the camera
@@ -110,24 +102,18 @@ namespace Assets.Scripts.Inventory
             Debug.Log($"drag: {_cursorObject.transform.position}");
         }
 
-        public void OnInventoryDrop(InventorySlotUi slot)
-        {
+        public void OnInventoryDrop(InventorySlotUi slot) {
             if (slot == null) return;
             if (_cursorSlot != null)
-            {
-                //From storage to quick bar
-                if (slot.Slot < 4 && _cursorSlot.Slot >= 4)
-                {
+                if (slot.Slot < 4 && _cursorSlot.Slot >= 4) {
                     //Clone item back to storage
                     Inventory[_cursorSlot.Slot] = new InventoryItem(_cursorItem);
                     _cursorSlot.UpdateUi(Inventory[_cursorSlot.Slot]);
                 }
-                else
-                {
+                else {
                     Inventory.SwapSlots(_cursorSlot.Slot, slot.Slot);
                     _cursorSlot.UpdateUi(Inventory[_cursorSlot.Slot]);
                 }
-            }
             Inventory[slot.Slot] = _cursorItem;
             slot.UpdateUi(Inventory[slot.Slot]);
             Debug.Log($"drop: #{slot.Slot} {slot.name}");
@@ -135,23 +121,22 @@ namespace Assets.Scripts.Inventory
         }
 
         //Relies on OnDrop (when valid) being called before OnEndDrag
-        public void OnInventoryEndDrag(InventorySlotUi slot)
-        {
+        public void OnInventoryEndDrag(InventorySlotUi slot) {
             if (slot == null) return;
-            if (_cursorItem != null)
-            {
+            if (_cursorItem != null) {
                 //If quickbar is dropped, drop all items of that type
                 if (slot.Slot < 4)
                     for (var i = 4; i < Inventory.Count(); i++)
-                        if (Inventory[i] != null && Inventory[i].Item == _cursorItem.Item)
+                        if (Inventory[i] != null && Inventory[i].Id == _cursorItem.Id)
                             Inventory[i] = null;
                 var forward = Inventory.transform.forward;
                 forward.y += 1;
                 var force = forward;
                 force.Scale(new Vector3(50, 1, 50));
-                for (var i = 0; i < _cursorItem.Count; i++)
-                {
-                    var itemDrop = Instantiate(Resources.Load<GameObject>(Item.GetPrefabResource(_cursorItem.Item)), Inventory.transform.position + forward, Inventory.transform.rotation) as GameObject;
+                for (var i = 0; i < _cursorItem.Count; i++) {
+                    var itemDrop =
+                        Instantiate(Resources.Load<GameObject>(Item.GetPrefabResource(_cursorItem.Id)),
+                            Inventory.transform.position + forward, Inventory.transform.rotation) as GameObject;
                     if (itemDrop == null) continue;
                     if (itemDrop.GetComponent<Rigidbody>() != null)
                         itemDrop.GetComponent<Rigidbody>().AddForce(force);

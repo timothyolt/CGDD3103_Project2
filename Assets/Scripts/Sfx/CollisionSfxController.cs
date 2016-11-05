@@ -1,29 +1,26 @@
 using JetBrains.Annotations;
 using UnityEngine;
 
-namespace Assets.Scripts.Sfx
-{
-    public class CollisionSfxController : MonoBehaviour
-    {
-        public AudioSource AudioSource;
-        public TextAsset SfxStartParams;
-        public TextAsset SfxStopParams;
-        public float ImpactSquaredMin;
-        public float ImpactSquaredMax;
-
-        private SfxrSynth _synth;
+namespace Assets.Scripts.Sfx {
+    public class CollisionSfxController : MonoBehaviour {
         private SfxrParams _start;
         private SfxrParams _stop;
 
+        private SfxrSynth _synth;
+        public AudioSource AudioSource;
+        public float ImpactSquaredMax;
+        public float ImpactSquaredMin;
+        public TextAsset SfxStartParams;
+        public TextAsset SfxStopParams;
 
-        public void UpdateSfx()
-        {
+
+        public void UpdateSfx() {
             (_start = new SfxrParams()).SetSettingsString(SfxStartParams?.text ?? "");
             (_stop = new SfxrParams()).SetSettingsString(SfxStopParams?.text ?? "");
         }
 
         [UsedImplicitly]
-        private void Start () {
+        private void Start() {
             _synth = new SfxrSynth();
             if (AudioSource != null)
                 _synth.SetAudioSource(AudioSource);
@@ -31,11 +28,13 @@ namespace Assets.Scripts.Sfx
         }
 
         [UsedImplicitly]
-        private void OnCollisionEnter(Collision collision)
-        {
+        private void OnCollisionEnter(Collision collision) {
             if (_synth == null) return;
             _synth.Stop();
-            var lerp = Mathf.Clamp((collision.relativeVelocity.sqrMagnitude - ImpactSquaredMin)/(ImpactSquaredMax - ImpactSquaredMin), 0f, 1f);
+            var lerp =
+                Mathf.Clamp(
+                    (collision.relativeVelocity.sqrMagnitude - ImpactSquaredMin)/(ImpactSquaredMax - ImpactSquaredMin),
+                    0f, 1f);
             _synth.parameters = SfxrParams.Lerp(_start, _stop, lerp);
             _synth.Play();
         }

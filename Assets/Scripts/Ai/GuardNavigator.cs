@@ -2,28 +2,22 @@
 using JetBrains.Annotations;
 using UnityEngine;
 
-namespace Assets.Scripts.Ai
-{
+namespace Assets.Scripts.Ai {
     [RequireComponent(typeof(NavMeshAgent))]
-    public class GuardNavigator : LivingEntityNavigator
-    {
+    public class GuardNavigator : LivingEntityNavigator {
         protected NavMeshAgent NavMeshAgent;
 
         [UsedImplicitly]
-        private void Start ()
-        {
+        private void Start() {
             NavMeshAgent = GetComponent<NavMeshAgent>();
         }
 
-        protected override void NoTarget()
-        {
+        protected override void NoTarget() {
             NavMeshAgent.Stop();
         }
 
-        protected override void Attack()
-        {
-            if (Target == null)
-            {
+        protected override void Attack() {
+            if (Target == null) {
                 Action = TargetAction.NoTarget;
                 return;
             }
@@ -40,12 +34,11 @@ namespace Assets.Scripts.Ai
             TimeSinceAttack = 0;
         }
 
-        protected override void Seek()
-        {
+        protected override void Seek() {
             NavMeshAgent.Resume();
             if (Target != null)
                 NavMeshAgent.destination = Target.transform.position;
-            else 
+            else
                 Action = TargetAction.NoTarget;
         }
     }

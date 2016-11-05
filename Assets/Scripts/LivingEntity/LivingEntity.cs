@@ -1,18 +1,16 @@
 using JetBrains.Annotations;
 using UnityEngine;
 
-namespace Assets.Scripts.LivingEntity
-{
-    public class LivingEntity : MonoBehaviour
-    {
-        public Team Team;
+namespace Assets.Scripts.LivingEntity {
+    public class LivingEntity : MonoBehaviour {
+        private int _health;
+        public int HealthMax;
         public int HealthRegen;
         public int HealthTimeToHeal;
-        public int HealthMax;
-
-        private int _health;
+        public Team Team;
         public float TimeSinceDamage { get; private set; }
         public float TimeSinceHeal { get; private set; }
+
         public int Health {
             get { return _health; }
             set {
@@ -28,8 +26,7 @@ namespace Assets.Scripts.LivingEntity
             }
         }
 
-        private void TimeHealth()
-        {
+        private void TimeHealth() {
             TimeSinceDamage += Time.deltaTime;
             TimeSinceHeal += Time.deltaTime;
             if (TimeSinceDamage > HealthTimeToHeal && TimeSinceHeal > HealthTimeToHeal && Health < HealthMax)
@@ -37,12 +34,12 @@ namespace Assets.Scripts.LivingEntity
         }
 
         [UsedImplicitly]
-        private void Start () {
+        private void Start() {
             Health = HealthMax;
         }
-	
+
         [UsedImplicitly]
-        private void Update () {
+        private void Update() {
             TimeHealth();
         }
     }

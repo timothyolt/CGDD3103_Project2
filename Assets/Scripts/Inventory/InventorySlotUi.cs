@@ -2,19 +2,43 @@
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-namespace Assets.Scripts.Inventory
-{
-    public class InventorySlotUi : MonoBehaviour, IPointerClickHandler, IDragHandler, IDropHandler, IEndDragHandler, IBeginDragHandler
-    {
-        public int Slot;
-        public InventoryUi InventoryUiScript;
+namespace Assets.Scripts.Inventory {
+    public class InventorySlotUi : MonoBehaviour, IPointerClickHandler, IDragHandler, IDropHandler, IEndDragHandler,
+        IBeginDragHandler {
         public GameObject Background;
-        public GameObject PreviewImage { get; set; }
-        public Text ItemName;
+        public InventoryUi InventoryUiScript;
         public Text ItemCount;
+        public Text ItemName;
+        public int Slot;
+        public GameObject PreviewImage { get; set; }
 
-        public void UpdateUi(InventoryItem item)
-        {
+        public void OnBeginDrag(PointerEventData eventData) {
+            if (InventoryUiScript != null)
+                InventoryUiScript.OnInventoryBeginDrag(this);
+        }
+
+        public void OnDrag(PointerEventData eventData) {
+            if (InventoryUiScript != null)
+                InventoryUiScript.OnInventoryDrag(this);
+        }
+
+        public void OnDrop(PointerEventData eventData) {
+            if (InventoryUiScript != null)
+                InventoryUiScript.OnInventoryDrop(this);
+        }
+
+        public void OnEndDrag(PointerEventData eventData) {
+            if (InventoryUiScript != null)
+                InventoryUiScript.OnInventoryEndDrag(this);
+        }
+
+        //Forward events to parent
+        public void OnPointerClick(PointerEventData eventData) {
+            if (InventoryUiScript != null)
+                InventoryUiScript.OnInventoryClick(this);
+        }
+
+        public void UpdateUi(InventoryItem item) {
             Destroy(PreviewImage);
             if (ItemName != null)
                 ItemName.text = "";
@@ -28,7 +52,7 @@ namespace Assets.Scripts.Inventory
             PreviewImage.transform.localScale = new Vector3(.8f, .8f, .8f);
             var image = PreviewImage.GetComponent<Image>();
             if (image == null) return;
-            image.sprite = Resources.Load<Sprite>(Item.GetSpriteResource(item.Item));
+            image.sprite = Resources.Load<Sprite>(Item.GetSpriteResource(item.Id));
             //Reset the color, the base object will be colorized
             image.color = Color.white;
             //The base object is sliced, reset this
@@ -38,41 +62,10 @@ namespace Assets.Scripts.Inventory
             if (ItemName == null) return;
             //Mind the render order
             ItemName.transform.SetAsLastSibling();
-            ItemName.text = Item.GetName(item.Item);
+            ItemName.text = Item.GetName(item.Id);
             if (ItemCount == null) return;
             ItemCount.transform.SetAsLastSibling();
             ItemCount.text = item.Count.ToString();
-        }
-
-        //Forward events to parent
-        public void OnPointerClick(PointerEventData eventData)
-        {
-            if (InventoryUiScript != null)
-                InventoryUiScript.OnInventoryClick(this);
-        }
-
-        public void OnDrag(PointerEventData eventData)
-        {
-            if (InventoryUiScript != null)
-                InventoryUiScript.OnInventoryDrag(this);
-        }
-
-        public void OnDrop(PointerEventData eventData)
-        {
-            if (InventoryUiScript != null)
-                InventoryUiScript.OnInventoryDrop(this);
-        }
-
-        public void OnEndDrag(PointerEventData eventData)
-        {
-            if (InventoryUiScript != null)
-                InventoryUiScript.OnInventoryEndDrag(this);
-        }
-
-        public void OnBeginDrag(PointerEventData eventData)
-        {
-            if (InventoryUiScript != null)
-                InventoryUiScript.OnInventoryBeginDrag(this);
         }
     }
 }

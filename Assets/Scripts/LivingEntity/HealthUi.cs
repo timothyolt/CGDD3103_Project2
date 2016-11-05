@@ -14,9 +14,7 @@ namespace Assets.Scripts.LivingEntity
         private void Update () {
             if (LivingEntity == null) return;
             if (HealthBar != null)
-                HealthBar.sizeDelta = new Vector2((float) LivingEntity.Health / LivingEntity.HealthMax * HealthBarMaxSize.x, HealthBarMaxSize.y);
             if (HealthText != null)
                 HealthText.text = LivingEntity.Health.ToString();
         }
     }
-}
