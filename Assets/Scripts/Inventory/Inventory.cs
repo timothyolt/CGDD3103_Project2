@@ -2,20 +2,22 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Assets.Scripts.Inventory.Items;
 using Assets.Scripts.Io;
 using JetBrains.Annotations;
 using Newtonsoft.Json.Linq;
 using UnityEngine;
+using ItemId = Assets.Scripts.Inventory.Items.Item.ItemId;
 
 namespace Assets.Scripts.Inventory {
-    public class Inventory : MonoBehaviour, IEnumerable<InventoryItem>, ISerializableScript {
-        private InventoryItem[] _items;
+    public class Inventory : MonoBehaviour, IEnumerable<Item>, ISerializableScript {
+        private Item[] _items;
         public InventoryUi InventoryUi;
         public int SlotCapacity;
         public LivingEntity.LivingEntity User;
         public int SelectedSlot { get; set; }
 
-        public InventoryItem this[int index] {
+        public Item this[int index] {
             get {
                 if (_items[index] == null) return null;
                 if (index < 4)
@@ -29,11 +31,11 @@ namespace Assets.Scripts.Inventory {
             }
         }
 
-        public IEnumerator<InventoryItem> GetEnumerator() => ((IEnumerable<InventoryItem>) _items).GetEnumerator();
+        public IEnumerator<Item> GetEnumerator() => ((IEnumerable<Item>) _items).GetEnumerator();
 
         IEnumerator IEnumerable.GetEnumerator() => _items.GetEnumerator();
 
-        public int ItemCount(Item.Id id) =>
+        public int ItemCount(ItemId id) =>
             _items.Skip(4)
                 .Where(item => item != null && item.Id == id)
                 .Sum(item => item.Count);
@@ -57,42 +59,41 @@ namespace Assets.Scripts.Inventory {
             GameObject itemDrop;
             if (User == null) return;
             var item = _items[index];
-            switch (item?.Id) {
-                case Item.Id.Health:
+            if (item == null) return;
+            switch (item.Id) {
+                case ItemId.Health:
                     User.Health += 10;
                     break;
-                case Item.Id.Health2:
+                case ItemId.Health2:
                     User.Health += 30;
                     break;
-                case Item.Id.Health3:
+                case ItemId.Health3:
                     User.Health = 100;
                     break;
-                case Item.Id.Shot1:
+                case ItemId.Shot1:
                     force.Scale(new Vector3(500, 1, 500));
                     itemDrop =
-                        Instantiate(Resources.Load<GameObject>(Item.GetPrefabResource(item.Id)),
+                        Instantiate(Resources.Load<GameObject>(item.PrefabString),
                             transform.position + forward, transform.rotation) as GameObject;
                     if (itemDrop != null && itemDrop.GetComponent<Rigidbody>() != null)
                         itemDrop.GetComponent<Rigidbody>().AddForce(force);
                     break;
-                case Item.Id.Shot2:
+                case ItemId.Shot2:
                     force.Scale(new Vector3(1000, 1, 1000));
                     itemDrop =
-                        Instantiate(Resources.Load<GameObject>(Item.GetPrefabResource(item.Id)),
+                        Instantiate(Resources.Load<GameObject>(item.PrefabString),
                             transform.position + forward, transform.rotation) as GameObject;
                     if (itemDrop != null && itemDrop.GetComponent<Rigidbody>() != null)
                         itemDrop.GetComponent<Rigidbody>().AddForce(force);
                     break;
-                case Item.Id.Shot3:
+                case ItemId.Shot3:
                     force.Scale(new Vector3(1500, 1, 1500));
                     itemDrop =
-                        Instantiate(Resources.Load<GameObject>(Item.GetPrefabResource(item.Id)),
+                        Instantiate(Resources.Load<GameObject>(item.PrefabString),
                             transform.position + forward, transform.rotation) as GameObject;
                     if (itemDrop != null && itemDrop.GetComponent<Rigidbody>() != null)
                         itemDrop.GetComponent<Rigidbody>().AddForce(force);
                     break;
-                case null:
-                    throw new NullReferenceException();
                 default:
                     throw new ArgumentOutOfRangeException();
             }
@@ -127,7 +128,7 @@ namespace Assets.Scripts.Inventory {
 
         [UsedImplicitly]
         private void Start() {
-            _items = new InventoryItem[16];
+            _items = new Item[16];
         }
 
         [UsedImplicitly]
@@ -145,7 +146,7 @@ namespace Assets.Scripts.Inventory {
                     return;
                 }
                 else if (_items[i] == null) {
-                    _items[i] = new InventoryItem(pickup.Item, 1);
+                    _items[i] = Item.FromId(pickup.Item);
                     Destroy(collision.gameObject);
                     if (InventoryUi != null)
                         InventoryUi.UpdateInventory(this);

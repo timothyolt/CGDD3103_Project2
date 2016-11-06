@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Assets.Scripts.Inventory.Items;
+using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
@@ -38,7 +39,7 @@ namespace Assets.Scripts.Inventory {
                 InventoryUiScript.OnInventoryClick(this);
         }
 
-        public void UpdateUi(InventoryItem item) {
+        public void UpdateUi(Item item) {
             Destroy(PreviewImage);
             if (ItemName != null)
                 ItemName.text = "";
@@ -52,7 +53,7 @@ namespace Assets.Scripts.Inventory {
             PreviewImage.transform.localScale = new Vector3(.8f, .8f, .8f);
             var image = PreviewImage.GetComponent<Image>();
             if (image == null) return;
-            image.sprite = Resources.Load<Sprite>(Item.GetSpriteResource(item.Id));
+            image.sprite = Resources.Load<Sprite>(item.SpriteString);
             //Reset the color, the base object will be colorized
             image.color = Color.white;
             //The base object is sliced, reset this
@@ -62,7 +63,7 @@ namespace Assets.Scripts.Inventory {
             if (ItemName == null) return;
             //Mind the render order
             ItemName.transform.SetAsLastSibling();
-            ItemName.text = Item.GetName(item.Id);
+            ItemName.text = item.Name;
             if (ItemCount == null) return;
             ItemCount.transform.SetAsLastSibling();
             ItemCount.text = item.Count.ToString();

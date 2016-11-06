@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using Assets.Scripts.Inventory.Items;
 using JetBrains.Annotations;
 using UnityEngine;
 using UnityEngine.UI;
@@ -7,7 +8,7 @@ namespace Assets.Scripts.Inventory {
     [RequireComponent(typeof(RectTransform))]
     public class InventoryUi : MonoBehaviour {
         private Vector3 _activeInventoryOffset;
-        private InventoryItem _cursorItem;
+        private Item _cursorItem;
         private GameObject _cursorObject;
         private InventorySlotUi _cursorSlot;
         private bool _open;
@@ -107,7 +108,7 @@ namespace Assets.Scripts.Inventory {
             if (_cursorSlot != null)
                 if (slot.Slot < 4 && _cursorSlot.Slot >= 4) {
                     //Clone item back to storage
-                    Inventory[_cursorSlot.Slot] = new InventoryItem(_cursorItem);
+                    Inventory[_cursorSlot.Slot] = _cursorItem.DeepCopy();
                     _cursorSlot.UpdateUi(Inventory[_cursorSlot.Slot]);
                 }
                 else {
@@ -135,7 +136,7 @@ namespace Assets.Scripts.Inventory {
                 force.Scale(new Vector3(50, 1, 50));
                 for (var i = 0; i < _cursorItem.Count; i++) {
                     var itemDrop =
-                        Instantiate(Resources.Load<GameObject>(Item.GetPrefabResource(_cursorItem.Id)),
+                        Instantiate(Resources.Load<GameObject>(_cursorItem.PrefabString),
                             Inventory.transform.position + forward, Inventory.transform.rotation) as GameObject;
                     if (itemDrop == null) continue;
                     if (itemDrop.GetComponent<Rigidbody>() != null)
