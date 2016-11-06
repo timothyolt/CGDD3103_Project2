@@ -2,11 +2,13 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Assets.Scripts.Io;
 using JetBrains.Annotations;
+using Newtonsoft.Json.Linq;
 using UnityEngine;
 
 namespace Assets.Scripts.Inventory {
-    public class Inventory : MonoBehaviour, IEnumerable<InventoryItem> {
+    public class Inventory : MonoBehaviour, IEnumerable<InventoryItem>, ISerializableScript {
         private InventoryItem[] _items;
         public InventoryUi InventoryUi;
         public int SlotCapacity;
@@ -36,6 +38,7 @@ namespace Assets.Scripts.Inventory {
                 .Where(item => item != null && item.Id == id)
                 .Sum(item => item.Count);
 
+        //TODO Testing
         public void Condense() {
             for (var none = 4; none < _items.Length; none++) {
                 if (_items[none] != null) continue;
@@ -149,6 +152,11 @@ namespace Assets.Scripts.Inventory {
                     return;
                 }
             //TODO: notify inventory full
+        }
+
+        public JToken ToJson()
+        {
+            throw new NotImplementedException();
         }
     }
 }

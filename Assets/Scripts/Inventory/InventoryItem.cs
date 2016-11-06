@@ -1,4 +1,7 @@
-﻿namespace Assets.Scripts.Inventory {
+﻿using System;
+
+namespace Assets.Scripts.Inventory {
+    [Serializable]
     public class InventoryItem {
         public InventoryItem(Item.Id id, int count) {
             Id = id;
