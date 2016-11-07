@@ -7,7 +7,6 @@ using Assets.Scripts.Io;
 using JetBrains.Annotations;
 using Newtonsoft.Json.Linq;
 using UnityEngine;
-using ItemId = Assets.Scripts.Inventory.Items.Item.ItemId;
 
 namespace Assets.Scripts.Inventory {
     public class Inventory : MonoBehaviour, IEnumerable<Item>, ISerializableScript {
@@ -35,7 +34,11 @@ namespace Assets.Scripts.Inventory {
 
         IEnumerator IEnumerable.GetEnumerator() => _items.GetEnumerator();
 
-        public int ItemCount(ItemId id) =>
+        public JToken ToJson() {
+            throw new NotImplementedException();
+        }
+
+        public int ItemCount(Item.ItemId id) =>
             _items.Skip(4)
                 .Where(item => item != null && item.Id == id)
                 .Sum(item => item.Count);
@@ -53,24 +56,23 @@ namespace Assets.Scripts.Inventory {
         }
 
         public void UseItem(int index) {
+            var item = _items[index];
+            if (User == null || item == null) return;
+            GameObject itemDrop;
             var forward = transform.forward;
             forward.y += 1;
             var force = transform.forward;
-            GameObject itemDrop;
-            if (User == null) return;
-            var item = _items[index];
-            if (item == null) return;
             switch (item.Id) {
-                case ItemId.Health:
+                case Item.ItemId.Health:
                     User.Health += 10;
                     break;
-                case ItemId.Health2:
+                case Item.ItemId.Health2:
                     User.Health += 30;
                     break;
-                case ItemId.Health3:
+                case Item.ItemId.Health3:
                     User.Health = 100;
                     break;
-                case ItemId.Shot1:
+                case Item.ItemId.Shot1:
                     force.Scale(new Vector3(500, 1, 500));
                     itemDrop =
                         Instantiate(Resources.Load<GameObject>(item.PrefabString),
@@ -78,7 +80,7 @@ namespace Assets.Scripts.Inventory {
                     if (itemDrop != null && itemDrop.GetComponent<Rigidbody>() != null)
                         itemDrop.GetComponent<Rigidbody>().AddForce(force);
                     break;
-                case ItemId.Shot2:
+                case Item.ItemId.Shot2:
                     force.Scale(new Vector3(1000, 1, 1000));
                     itemDrop =
                         Instantiate(Resources.Load<GameObject>(item.PrefabString),
@@ -86,7 +88,7 @@ namespace Assets.Scripts.Inventory {
                     if (itemDrop != null && itemDrop.GetComponent<Rigidbody>() != null)
                         itemDrop.GetComponent<Rigidbody>().AddForce(force);
                     break;
-                case ItemId.Shot3:
+                case Item.ItemId.Shot3:
                     force.Scale(new Vector3(1500, 1, 1500));
                     itemDrop =
                         Instantiate(Resources.Load<GameObject>(item.PrefabString),
@@ -153,11 +155,6 @@ namespace Assets.Scripts.Inventory {
                     return;
                 }
             //TODO: notify inventory full
-        }
-
-        public JToken ToJson()
-        {
-            throw new NotImplementedException();
         }
     }
 }

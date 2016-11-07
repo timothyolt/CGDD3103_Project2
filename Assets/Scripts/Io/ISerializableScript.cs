@@ -1,8 +1,6 @@
-﻿using System;
-using Newtonsoft.Json.Linq;
+﻿using Newtonsoft.Json.Linq;
 
-namespace Assets.Scripts.Io
-{
+namespace Assets.Scripts.Io {
     public interface ISerializableScript {
         JToken ToJson();
     }
