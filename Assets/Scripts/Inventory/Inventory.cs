@@ -38,6 +38,10 @@ namespace Assets.Scripts.Inventory {
             throw new NotImplementedException();
         }
 
+        public void FromJson(JToken token) {
+            throw new NotImplementedException();
+        }
+
         public int ItemCount(Item.ItemId id) =>
             _items.Skip(4)
                 .Where(item => item != null && item.Id == id)
