@@ -3,7 +3,8 @@ using Newtonsoft.Json;
 
 namespace Assets.Scripts.Inventory.Items {
     [Serializable]
-    public abstract class Item {
+    public abstract class Item
+    {
         public enum ItemId {
             //None=0,
             Health = 1,
@@ -18,16 +19,13 @@ namespace Assets.Scripts.Inventory.Items {
 
         protected const string PrefabDir = "Prefabs";
         public abstract ItemId Id { get; }
-
-        [JsonIgnore]
+        
         public abstract string Name { get; }
 
         public int Count { get; set; }
-
-        [JsonIgnore]
+        
         public abstract string SpriteString { get; }
-
-        [JsonIgnore]
+        
         public abstract string PrefabString { get; }
 
         public static Item FromId(ItemId id, int count = 1) {
@@ -52,5 +50,12 @@ namespace Assets.Scripts.Inventory.Items {
         public virtual Item DeepCopy() {
             return FromId(Id, Count);
         }
+        public class Serializable
+        {
+            public int Id { get; set; }
+            public int Count { get; set; }
+        }
+        public Serializable ToSerializable() => new Serializable { Id = (int)Id, Count = Count };
+        public static Item FromSerializable(Serializable serialable) => FromId((ItemId)serialable.Id, serialable.Count);
     }
 }

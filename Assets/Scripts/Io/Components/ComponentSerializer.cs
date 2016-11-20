@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using Newtonsoft.Json.Utilities;
 using UnityEngine;
 
 namespace Assets.Scripts.Io.Components
@@ -18,7 +19,7 @@ namespace Assets.Scripts.Io.Components
             var output = new JObject();
             foreach (var component in components) {
                 if (component is ISerializableScript)
-                    output[$"@{component.GetType().FullName}"] = (component as ISerializableScript).ToJson();
+                    output[$"@{component.GetType().FullName}"] = (component as ISerializableScript).ToJson(serializer);
                 else output[component.GetType().Name] = RegisteredComponents[component.GetType().Name].ToJson(component, serializer);
             }
             return output;
@@ -36,10 +37,16 @@ namespace Assets.Scripts.Io.Components
                         var type = Type.GetType(jComponent.Name.Substring(1));
                         if (type == null)
                         {
-                            Debug.LogError($"Type '{jComponent.Name}' not available");
+                            Debug.LogError($"Type '{jComponent.Name}' not available for deserialization");
                             continue;
                         }
-                        serializableScript = Activator.CreateInstance(type) as ISerializableScript;
+                        if (!type.ImplementInterface(typeof(ISerializableScript)))
+                        {
+                            Debug.LogError($"Script '{jComponent.Name}' does not implement ISerializableScript");
+                            continue;
+                        }
+                        serializableScript = targetGameObject.GetComponent(type) as ISerializableScript ??
+                                             Activator.CreateInstance(type) as ISerializableScript;
                     }
                     catch (Exception e)
                     {
@@ -48,7 +55,7 @@ namespace Assets.Scripts.Io.Components
                     }
                     if (serializableScript == null)
                     {
-                        Debug.LogError($"Script '{jComponent.Name}' does not implement ISerializableScript");
+                        Debug.LogError($"Script '{jComponent.Name}' could not be found or instantiated");
                         continue;
                     }
                     try

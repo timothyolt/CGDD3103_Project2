@@ -5,6 +5,7 @@ using System.Linq;
 using Assets.Scripts.Inventory.Items;
 using Assets.Scripts.Io;
 using JetBrains.Annotations;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using UnityEngine;
 
@@ -34,12 +35,36 @@ namespace Assets.Scripts.Inventory {
 
         IEnumerator IEnumerable.GetEnumerator() => _items.GetEnumerator();
 
-        public JToken ToJson() {
-            throw new NotImplementedException();
-        }
+        public JToken ToJson(JsonSerializer serializer)
+            =>
+            new JArray(
+                _items.Select(
+                    item =>
+                        item == null
+                            ? null
+                            : JObject.FromObject(item.ToSerializable(), serializer)));
 
         public void FromJson(JToken token) {
-            throw new NotImplementedException();
+            var inventory = token as JArray;
+            if (inventory == null) {
+                Debug.LogError("Serialized inventory was not an array");
+                return;
+            }
+            if (inventory.Count > _items.Length)
+                Debug.LogWarning($"Serialized inventory capacity {inventory.Count} exceeds current inventory capacity");
+            else if (inventory.Count < _items.Length)
+                Debug.LogWarning(
+                    $"Serialized inventory capacity {inventory.Count} is less than current inventory capacity");
+            _items =
+                inventory.Take(_items.Length)
+                    .Select(
+                        jItem =>
+                            jItem == null
+                                ? null
+                                : JsonConvert.DeserializeObject<Item.Serializable>(jItem.ToString()))
+                    .Select(serializable => serializable == null ? null : Item.FromSerializable(serializable))
+                    .ToArray();
+            InventoryUi.UpdateInventory(this);
         }
 
         public int ItemCount(Item.ItemId id) =>
