@@ -1,11 +1,13 @@
 ﻿using System;
 using Newtonsoft.Json;
 
-namespace Assets.Scripts.Inventory.Items {
+namespace Assets.Scripts.Inventory.Items
+{
     [Serializable]
     public abstract class Item
     {
-        public enum ItemId {
+        public enum ItemId
+        {
             //None=0,
             Health = 1,
             Health2 = 2,
@@ -19,17 +21,19 @@ namespace Assets.Scripts.Inventory.Items {
 
         protected const string PrefabDir = "Prefabs";
         public abstract ItemId Id { get; }
-        
+
         public abstract string Name { get; }
 
         public int Count { get; set; }
-        
+
         public abstract string SpriteString { get; }
-        
+
         public abstract string PrefabString { get; }
 
-        public static Item FromId(ItemId id, int count = 1) {
-            switch (id) {
+        public static Item FromId(ItemId id, int count = 1)
+        {
+            switch (id)
+            {
                 case ItemId.Health:
                     return new HealSmall {Count = count};
                 case ItemId.Health2:
@@ -47,15 +51,20 @@ namespace Assets.Scripts.Inventory.Items {
             }
         }
 
-        public virtual Item DeepCopy() {
+        public virtual Item DeepCopy()
+        {
             return FromId(Id, Count);
         }
+
         public class Serializable
         {
-            public int Id { get; set; }
+            public string Id { get; set; }
             public int Count { get; set; }
         }
-        public Serializable ToSerializable() => new Serializable { Id = (int)Id, Count = Count };
-        public static Item FromSerializable(Serializable serialable) => FromId((ItemId)serialable.Id, serialable.Count);
+
+        public Serializable ToSerializable() => new Serializable {Id = Id.ToString(), Count = Count};
+
+        public static Item FromSerializable(Serializable serialable)
+            => FromId((ItemId) Enum.Parse(typeof(ItemId), serialable.Id), serialable.Count);
     }
 }

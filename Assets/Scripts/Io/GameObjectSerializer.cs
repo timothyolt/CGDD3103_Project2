@@ -1,5 +1,7 @@
 ﻿using System.Linq;
+using Assets.Scripts.Inventory.Items;
 using Assets.Scripts.Io.Components;
+using JetBrains.Annotations;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using UnityEngine;
@@ -40,7 +42,7 @@ namespace Assets.Scripts.Io {
         public string Prefab;
 
         public JObject ToJson(JsonSerializer serializer) {
-            var components = ComponentSerializer.CollectionToJson(SerializableComponents, serializer);
+            var components = ComponentSerializer.CollectionToJson(SerializableComponents ?? new Component[0], serializer);
             var children = new JArray();
             foreach (
                 var childSerializer in
@@ -55,6 +57,20 @@ namespace Assets.Scripts.Io {
                 {"components", components},
                 {"children", children}
             };
+        }
+
+        public void EnsureParentSerializer()
+        {
+            var parent = transform.parent;
+            if (parent != null && parent.GetComponent<GameObjectSerializer>() == null)
+                parent.gameObject.AddComponent<GameObjectSerializer>();
+            //Parent's start will be called to ensure its parent has a serializer object
+        }
+
+        [UsedImplicitly]
+        private void Start()
+        {
+            EnsureParentSerializer();
         }
     }
 }

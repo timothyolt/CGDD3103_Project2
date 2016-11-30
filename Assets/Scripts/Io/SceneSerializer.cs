@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using JetBrains.Annotations;
@@ -17,9 +18,12 @@ namespace Assets.Scripts.Io
             ContractResolver = new WritableOnlyResolver()
         };
 
-        public static JToken ToJson(JsonSerializer serializer)
+        public static JToken ToJson(JsonSerializer serializer, bool ensureParents = false)
         {
             var jArray = new JArray();
+            if (ensureParents)
+                foreach (var gameObjectSerializer in FindObjectsOfType<GameObjectSerializer>())
+                    gameObjectSerializer.EnsureParentSerializer();
             foreach (
                 var rootSerializer in
                 SceneManager.GetActiveScene()
@@ -30,24 +34,20 @@ namespace Assets.Scripts.Io
             return new JObject {{"gameObjects", jArray}};
         }
 
-        public static void FromJson(JToken gameSave)
+        public static void FromJson(JToken gameSave, bool ensureParents = false)
         {
+            if (ensureParents)
+                foreach (var gameObjectSerializer in FindObjectsOfType<GameObjectSerializer>())
+                    gameObjectSerializer.EnsureParentSerializer();
             var rootGameObjects = SceneManager.GetActiveScene().GetRootGameObjects();
             foreach (var jsonGameObject in gameSave["gameObjects"] as JArray ?? new JArray())
-            {
-                GameObject first = null;
-                foreach (var gameObject1 in rootGameObjects)
-                {
-                    if (gameObject1.name == jsonGameObject["name"].ToString())
-                    {
-                        first = gameObject1;
-                        break;
-                    }
-                }
-                GameObjectSerializer.FromJson(jsonGameObject, first);
-            }
+                GameObjectSerializer.FromJson(jsonGameObject, rootGameObjects.FirstOrDefault(gameObject => gameObject.name == jsonGameObject["name"].ToString()));
         }
 
+        private bool _logSaveMetrics;
+        private static readonly List<long> Saves = new List<long>();
+        private bool _logLoadMetrics;
+        private static readonly List<long> Loads = new List<long>();
         [UsedImplicitly]
         private void Update()
         {
@@ -55,9 +55,15 @@ namespace Assets.Scripts.Io
             {
                 var timer = new Stopwatch();
                 timer.Start();
-                var serialized = ToJson(JsonSerializer.Create(UnityTypeSerializerSettings)).ToString();
+                var serialized = ToJson(JsonSerializer.Create(UnityTypeSerializerSettings), true).ToString();
                 timer.Stop();
-                Debug.Log($"Json serialization took {timer.ElapsedMilliseconds} ms");
+                if (_logSaveMetrics)
+                {
+                    Saves.Add(timer.ElapsedMilliseconds);
+                    Debug.Log($"Json serialization took {timer.ElapsedMilliseconds} ms. Average {Saves.Average()} ms.");
+                }
+                else
+                    _logSaveMetrics = true;
 
                 using (var stream = new FileStream($"{Application.persistentDataPath}/gamesave", FileMode.Create))
                 using (var file = new StreamWriter(stream))
@@ -71,9 +77,15 @@ namespace Assets.Scripts.Io
 
                 var timer = new Stopwatch();
                 timer.Start();
-                FromJson(JObject.Parse(serialized));
+                FromJson(JObject.Parse(serialized), true);
                 timer.Stop();
-                Debug.Log($"Json deserialization took {timer.ElapsedMilliseconds} ms");
+                if (_logLoadMetrics)
+                {
+                    Loads.Add(timer.ElapsedMilliseconds);
+                    Debug.Log($"Json deserialization took {timer.ElapsedMilliseconds} ms. Average {Loads.Average()} ms.");
+                }
+                else
+                    _logLoadMetrics = true;
             }
         }
     }

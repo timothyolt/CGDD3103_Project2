@@ -9,7 +9,7 @@ namespace Assets.Scripts.Inventory {
     public class Pickup : MonoBehaviour, ISerializableScript {
         public Item.ItemId Item;
 
-        public JToken ToJson(JsonSerializer serializer) => new JObject(new JProperty("item", (int) Item));
+        public JToken ToJson(JsonSerializer serializer) => new JObject(new JProperty("item", Item.ToString()));
 
         public void FromJson(JToken token)
         {
