@@ -1,8 +1,12 @@
 using JetBrains.Annotations;
 using UnityEngine;
+using Assets.Scripts.Io;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace Assets.Scripts.LivingEntity {
-    public class LivingEntity : MonoBehaviour {
+    public class LivingEntity : MonoBehaviour, ISerializableScript
+    {
         private int _health;
         public int HealthMax;
         public int HealthRegen;
@@ -41,6 +45,19 @@ namespace Assets.Scripts.LivingEntity {
         [UsedImplicitly]
         private void Update() {
             TimeHealth();
+        }
+
+        public JToken ToJson(JsonSerializer serializer) => new JObject(new JProperty("health", Health));
+
+        public void FromJson(JToken token)
+        {
+            var health = token.First as JProperty;
+            if (health == null)
+                Debug.LogError("Serialized health was not a property");
+            else if (health.Name != "health")
+                Debug.LogError("Health property missing");
+            else
+                Health = int.Parse(health.Value.ToString());
         }
     }
 }

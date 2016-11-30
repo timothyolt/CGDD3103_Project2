@@ -16,6 +16,10 @@ namespace Assets.Scripts.Io {
             {
                 switch (property.Name)
                 {
+                    case "children":
+                        foreach (var childJsonGameObject in (property.Value as JArray) ?? new JArray())
+                            FromJson(childJsonGameObject, targetGameObject.transform?.FindChild(childJsonGameObject["name"].ToString())?.gameObject);
+                        break;
                     case "name":
                         targetGameObject.name = property.Value.ToString();
                         break;

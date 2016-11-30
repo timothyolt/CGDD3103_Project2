@@ -33,8 +33,19 @@ namespace Assets.Scripts.Io
         public static void FromJson(JToken gameSave)
         {
             var rootGameObjects = SceneManager.GetActiveScene().GetRootGameObjects();
-            foreach (var jsonGameObject in (gameSave["gameObjects"] as JArray) ?? new JArray())
-                GameObjectSerializer.FromJson(jsonGameObject, rootGameObjects.FirstOrDefault(gameObject => gameObject.name == jsonGameObject["name"].ToString()));
+            foreach (var jsonGameObject in gameSave["gameObjects"] as JArray ?? new JArray())
+            {
+                GameObject first = null;
+                foreach (var gameObject1 in rootGameObjects)
+                {
+                    if (gameObject1.name == jsonGameObject["name"].ToString())
+                    {
+                        first = gameObject1;
+                        break;
+                    }
+                }
+                GameObjectSerializer.FromJson(jsonGameObject, first);
+            }
         }
 
         [UsedImplicitly]

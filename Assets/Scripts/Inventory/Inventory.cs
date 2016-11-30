@@ -43,7 +43,7 @@ namespace Assets.Scripts.Inventory {
                         item == null
                             ? null
                             : JObject.FromObject(item.ToSerializable(), serializer)));
-
+        
         public void FromJson(JToken token) {
             var inventory = token as JArray;
             if (inventory == null) {
