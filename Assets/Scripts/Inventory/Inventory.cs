@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -87,55 +86,16 @@ namespace Assets.Scripts.Inventory {
         public void UseItem(int index) {
             var item = _items[index];
             if (User == null || item == null) return;
-            GameObject itemDrop;
-            var forward = transform.forward;
-            forward.y += 1;
-            var force = transform.forward;
-            switch (item.Id) {
-                case Item.ItemId.Health:
-                    User.Health += 10;
-                    break;
-                case Item.ItemId.Health2:
-                    User.Health += 30;
-                    break;
-                case Item.ItemId.Health3:
-                    User.Health = 100;
-                    break;
-                case Item.ItemId.Shot1:
-                    force.Scale(new Vector3(500, 1, 500));
-                    itemDrop =
-                        Instantiate(Resources.Load<GameObject>(item.PrefabString),
-                            transform.position + forward, transform.rotation) as GameObject;
-                    if (itemDrop != null && itemDrop.GetComponent<Rigidbody>() != null)
-                        itemDrop.GetComponent<Rigidbody>().AddForce(force);
-                    break;
-                case Item.ItemId.Shot2:
-                    force.Scale(new Vector3(1000, 1, 1000));
-                    itemDrop =
-                        Instantiate(Resources.Load<GameObject>(item.PrefabString),
-                            transform.position + forward, transform.rotation) as GameObject;
-                    if (itemDrop != null && itemDrop.GetComponent<Rigidbody>() != null)
-                        itemDrop.GetComponent<Rigidbody>().AddForce(force);
-                    break;
-                case Item.ItemId.Shot3:
-                    force.Scale(new Vector3(1500, 1, 1500));
-                    itemDrop =
-                        Instantiate(Resources.Load<GameObject>(item.PrefabString),
-                            transform.position + forward, transform.rotation) as GameObject;
-                    if (itemDrop != null && itemDrop.GetComponent<Rigidbody>() != null)
-                        itemDrop.GetComponent<Rigidbody>().AddForce(force);
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException();
-            }
-            if (index < 4) {
+            if (index < 4)
+            {
                 //use item from last matching slot
                 item = _items.Last(i => i != null && i.Id == _items[index]?.Id);
                 item.Count--;
                 //delete last matching slot when it runs out
                 if (item.Count <= 0)
                     for (var lastMatch = _items.Length - 1; lastMatch >= 0; lastMatch--)
-                        if (_items[lastMatch] != null && _items[lastMatch].Id == item.Id) {
+                        if (_items[lastMatch] != null && _items[lastMatch].Id == item.Id)
+                        {
                             _items[lastMatch] = null;
                             break;
                         }
@@ -143,12 +103,25 @@ namespace Assets.Scripts.Inventory {
                 if (_items.Skip(4).All(i => i == null || i.Id != _items[index].Id))
                     _items[index] = null;
             }
-            else {
+            else
+            {
                 item.Count--;
                 if (item.Count <= 0)
                     _items[index] = null;
             }
             InventoryUi.UpdateInventory(this);
+            var heal = item as Heal;
+            if (heal != null)
+            {
+                User.Health += heal.HealAmount;
+                return;
+            }
+            var shot = item as Shot;
+            if (shot == null) return;
+            var itemDrop =
+                Instantiate(Resources.Load<GameObject>(item.PrefabString),
+                    transform.position + transform.forward + new Vector3(0, 1, 0), transform.rotation) as GameObject;
+            itemDrop?.GetComponent<ProjectilePickup>()?.Activate(transform.forward);
         }
 
         public void SwapSlots(int toIndex, int fromIndex) {

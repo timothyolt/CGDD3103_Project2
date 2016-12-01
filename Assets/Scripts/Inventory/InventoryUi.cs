@@ -143,7 +143,7 @@ namespace Assets.Scripts.Inventory {
                         itemDrop.GetComponent<Rigidbody>().AddForce(force);
                     if (itemDrop.GetComponent<ProjectilePickup>() != null)
                         //Render projectiles inert
-                        itemDrop.GetComponent<ProjectilePickup>().LifeTime = 5;
+                        itemDrop.GetComponent<ProjectilePickup>().VolatileTime = 0;
                 }
                 _cursorItem = null;
             }
