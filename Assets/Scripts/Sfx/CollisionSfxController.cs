@@ -1,7 +1,9 @@
+using Assets.Scripts.Inventory;
 using JetBrains.Annotations;
 using UnityEngine;
 
 namespace Assets.Scripts.Sfx {
+    [RequireComponent(typeof(ProjectilePickup))]
     public class CollisionSfxController : MonoBehaviour {
         private SfxrParams _start;
         private SfxrParams _stop;
@@ -29,7 +31,7 @@ namespace Assets.Scripts.Sfx {
 
         [UsedImplicitly]
         private void OnCollisionEnter(Collision collision) {
-            if (_synth == null) return;
+            if (_synth == null || GetComponent<ProjectilePickup>().VolatileTime <= 0) return;
             _synth.Stop();
             var lerp =
                 Mathf.Clamp(
