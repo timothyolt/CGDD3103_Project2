@@ -53,40 +53,46 @@ namespace Assets.Scripts.Io
         {
             if (Input.GetKeyDown(KeyCode.Q))
             {
-                var timer = new Stopwatch();
-                timer.Start();
-                var serialized = ToJson(JsonSerializer.Create(UnityTypeSerializerSettings), true).ToString();
-                timer.Stop();
-                if (_logSaveMetrics)
-                {
-                    Saves.Add(timer.ElapsedMilliseconds);
-                    Debug.Log($"Json serialization took {timer.ElapsedMilliseconds} ms. Average {Saves.Average()} ms.");
-                }
-                else
-                    _logSaveMetrics = true;
-
-                using (var stream = new FileStream($"{Application.persistentDataPath}/gamesave", FileMode.Create))
-                using (var file = new StreamWriter(stream))
-                    file.Write(serialized);
+                SaveFile(_logSaveMetrics);
+                _logSaveMetrics = true;
             }
             if (Input.GetKeyDown(KeyCode.Z)) {
-                string serialized;
-                using (var stream = new FileStream($"{Application.persistentDataPath}/gamesave", FileMode.Open))
-                using (var file = new StreamReader(stream))
-                    serialized = file.ReadToEnd();
-
-                var timer = new Stopwatch();
-                timer.Start();
-                FromJson(JObject.Parse(serialized), true);
-                timer.Stop();
-                if (_logLoadMetrics)
-                {
-                    Loads.Add(timer.ElapsedMilliseconds);
-                    Debug.Log($"Json deserialization took {timer.ElapsedMilliseconds} ms. Average {Loads.Average()} ms.");
-                }
-                else
-                    _logLoadMetrics = true;
+                LoadFile(_logLoadMetrics);
+                _logLoadMetrics = true;
             }
+        }
+
+        public static void SaveFile(bool logSaveMetrics = false)
+        {
+            var timer = new Stopwatch();
+            timer.Start();
+            var serialized = ToJson(JsonSerializer.Create(UnityTypeSerializerSettings), true).ToString();
+            timer.Stop();
+            if (logSaveMetrics)
+            {
+                Saves.Add(timer.ElapsedMilliseconds);
+                Debug.Log($"Json serialization took {timer.ElapsedMilliseconds} ms. Average {Saves.Average()} ms.");
+            }
+
+            using (var stream = new FileStream($"{Application.persistentDataPath}/gamesave", FileMode.Create))
+            using (var file = new StreamWriter(stream))
+                file.Write(serialized);
+        }
+
+        public static void LoadFile(bool logLoadMetrics = false)
+        {
+            string serialized;
+            using (var stream = new FileStream($"{Application.persistentDataPath}/gamesave", FileMode.Open))
+            using (var file = new StreamReader(stream))
+                serialized = file.ReadToEnd();
+
+            var timer = new Stopwatch();
+            timer.Start();
+            FromJson(JObject.Parse(serialized), true);
+            timer.Stop();
+            if (!logLoadMetrics) return;
+            Loads.Add(timer.ElapsedMilliseconds);
+            Debug.Log($"Json deserialization took {timer.ElapsedMilliseconds} ms. Average {Loads.Average()} ms.");
         }
     }
 }

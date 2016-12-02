@@ -1,7 +1,9 @@
 ﻿using System.Linq;
 using Assets.Scripts.Inventory.Items;
+using Assets.Scripts.Io;
 using JetBrains.Annotations;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 namespace Assets.Scripts.Inventory {
@@ -56,6 +58,11 @@ namespace Assets.Scripts.Inventory {
                 Inventory.UseItem(2);
             if (Input.GetKeyDown(KeyCode.Alpha4))
                 Inventory.UseItem(3);
+            if (Input.GetKeyDown(KeyCode.Escape))
+            {
+                SceneSerializer.SaveFile();
+                SceneManager.LoadScene(0);
+            }
         }
 
         public void OnInventoryClick(InventorySlotUi slot) {
