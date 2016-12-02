@@ -31,10 +31,26 @@ namespace Assets.Scripts.Menu
                 }
                 ResolutionDropdown.onValueChanged.AddListener(index => GameSettings.CurrentResolution = GameSettings.Resolutions[index]);
             }
-            FullscreenToggle?.onValueChanged.AddListener(full => GameSettings.Fullscreen = full);
-            VSyncToggle?.onValueChanged.AddListener(sync => GameSettings.Vsync = sync);
-            SfxVolumeSlider?.onValueChanged.AddListener(value => GameSettings.SfxVolume = value);
-            MusicVolumeSlider?.onValueChanged.AddListener(value => GameSettings.MusicVolume = value);
+            if (FullscreenToggle != null)
+            {
+                FullscreenToggle.isOn = GameSettings.Fullscreen;
+                FullscreenToggle.onValueChanged.AddListener(full => GameSettings.Fullscreen = full);
+            }
+            if (VSyncToggle != null)
+            {
+                VSyncToggle.isOn = GameSettings.Vsync;
+                VSyncToggle.onValueChanged.AddListener(sync => GameSettings.Vsync = sync);
+            }
+            if (SfxVolumeSlider != null)
+            {
+                SfxVolumeSlider.value = GameSettings.SfxVolume;
+                SfxVolumeSlider.onValueChanged.AddListener(value => GameSettings.SfxVolume = value);
+            }
+            if (MusicVolumeSlider != null)
+            {
+                MusicVolumeSlider.value = GameSettings.MusicVolume;
+                MusicVolumeSlider.onValueChanged.AddListener(value => GameSettings.MusicVolume = value);
+            }
 
             CancelButton?.onClick.AddListener(() =>
             {

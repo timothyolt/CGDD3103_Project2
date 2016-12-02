@@ -25,7 +25,10 @@ namespace Assets.Scripts.Sfx {
         private void Start() {
             _synth = new SfxrSynth();
             if (AudioSource != null)
+            {
+                AudioSource.volume = GameSettings.SfxVolume;
                 _synth.SetAudioSource(AudioSource);
+            }
             UpdateSfx();
         }
 
