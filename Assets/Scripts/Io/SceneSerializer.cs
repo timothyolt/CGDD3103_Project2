@@ -91,7 +91,9 @@ namespace Assets.Scripts.Io
             {
                 if (current == null)
                     current = new JObject();
-                current[SceneManager.GetActiveScene().name] =
+                if (current[GameSettings.Username] == null)
+                    current[GameSettings.Username] = new JObject();
+                current[GameSettings.Username][SceneManager.GetActiveScene().name] =
                     ToJson(JsonSerializer.Create(UnityTypeSerializerSettings), true);
                 outputString = current.ToString();
             }
@@ -122,7 +124,7 @@ namespace Assets.Scripts.Io
             timer.Start();
             try
             {
-                FromJson(JObject.Parse(inputString)?[SceneManager.GetActiveScene().name], true);
+                FromJson(JObject.Parse(inputString)?[GameSettings.Username]?[SceneManager.GetActiveScene().name], true);
             }
             catch (JsonReaderException e)
             {

@@ -72,10 +72,22 @@ namespace Assets.Scripts
             }
         }
 
+        public static event Action<string> UsernameUpdate;
+        public static string Username
+        {
+            get { return _username; }
+            set
+            {
+                _username = value;
+                UsernameUpdate?.Invoke(value);
+            }
+        }
+
         private static float _musicVolume = 1;
         private static bool _fullscreen;
         private static bool _vsync;
         private static float _sfxVolume = 1;
+        private static string _username = "Username";
 
         public static void Save()
         {
@@ -87,7 +99,8 @@ namespace Assets.Scripts
                     {"fullscreen", Fullscreen },
                     {"vsync", Vsync},
                     {"sfxVolume", SfxVolume },
-                    {"musicVolume", MusicVolume }
+                    {"musicVolume", MusicVolume },
+                    {"username", Username }
                 });
         }
 
@@ -108,11 +121,12 @@ namespace Assets.Scripts
                 return;
             var serialized = JObject.Parse(fileString);
             Resolutions = Screen.resolutions;
-            CurrentResolution = JsonConvert.DeserializeObject<Resolution>(serialized["resolution"].ToString());
-            Fullscreen = bool.Parse(serialized["fullscreen"].ToString());
-            Vsync = bool.Parse(serialized["vsync"].ToString());
-            SfxVolume = float.Parse(serialized["sfxVolume"].ToString());
-            MusicVolume = float.Parse(serialized["musicVolume"].ToString());
+            CurrentResolution = JsonConvert.DeserializeObject<Resolution>(serialized["resolution"]?.ToString());
+            Fullscreen = bool.Parse(serialized["fullscreen"]?.ToString() ?? "false");
+            Vsync = bool.Parse(serialized["vsync"]?.ToString() ?? "false");
+            SfxVolume = float.Parse(serialized["sfxVolume"]?.ToString() ?? "1");
+            MusicVolume = float.Parse(serialized["musicVolume"]?.ToString() ?? "1");
+            Username = serialized["username"]?.ToString() ?? "username";
         }
     }
 }

@@ -15,6 +15,8 @@ namespace Assets.Scripts.Menu
         public Button CancelButton;
         public Button SaveButton;
 
+        public InputField UsernameField;
+
         [UsedImplicitly]
         private void Start()
         {
@@ -52,15 +54,30 @@ namespace Assets.Scripts.Menu
                 MusicVolumeSlider.onValueChanged.AddListener(value => GameSettings.MusicVolume = value);
             }
 
+            if (UsernameField != null)
+            {
+                UsernameField.text = GameSettings.Username;
+                UsernameField.onEndEdit.AddListener(username => GameSettings.Username = username);
+            }
+
             CancelButton?.onClick.AddListener(() =>
             {
+                GameSettings.Load();
                 var main = Instantiate(Resources.Load<GameObject>("Menus/Main"));
                 main.transform.SetParent(transform.parent);
                 main.transform.position = transform.position;
                 main.transform.localScale = transform.localScale;
                 Destroy(gameObject);
             });
-            SaveButton?.onClick.AddListener(GameSettings.Save);
+            SaveButton?.onClick.AddListener(() =>
+            {
+                GameSettings.Save();
+                var main = Instantiate(Resources.Load<GameObject>("Menus/Main"));
+                main.transform.SetParent(transform.parent);
+                main.transform.position = transform.position;
+                main.transform.localScale = transform.localScale;
+                Destroy(gameObject);
+            });
         }
     }
 }
