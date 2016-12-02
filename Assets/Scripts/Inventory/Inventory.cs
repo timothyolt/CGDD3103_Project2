@@ -10,7 +10,7 @@ using UnityEngine;
 
 namespace Assets.Scripts.Inventory {
     public class Inventory : MonoBehaviour, IEnumerable<Item>, ISerializableScript {
-        private Item[] _items;
+        private Item[] _items = new Item[16];
         public InventoryUi InventoryUi;
         public int SlotCapacity;
         public LivingEntity.LivingEntity User;
@@ -63,7 +63,7 @@ namespace Assets.Scripts.Inventory {
                                 : JsonConvert.DeserializeObject<Item.Serializable>(jItem.ToString()))
                     .Select(serializable => serializable == null ? null : Item.FromSerializable(serializable))
                     .ToArray();
-            InventoryUi.UpdateInventory(this);
+            InventoryUi?.UpdateInventory(this);
         }
 
         public int ItemCount(Item.ItemId id) =>
@@ -109,7 +109,7 @@ namespace Assets.Scripts.Inventory {
                 if (item.Count <= 0)
                     _items[index] = null;
             }
-            InventoryUi.UpdateInventory(this);
+            InventoryUi?.UpdateInventory(this);
             var heal = item as Heal;
             if (heal != null)
             {
@@ -128,11 +128,6 @@ namespace Assets.Scripts.Inventory {
             var temp = _items[toIndex];
             _items[toIndex] = _items[fromIndex];
             _items[fromIndex] = temp;
-        }
-
-        [UsedImplicitly]
-        private void Start() {
-            _items = new Item[16];
         }
 
         [UsedImplicitly]

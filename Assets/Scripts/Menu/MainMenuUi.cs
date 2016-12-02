@@ -12,6 +12,7 @@ namespace Assets.Scripts.Menu
         public Button OptionsButton;
         public Button PlayNewButton;
         public Button PlayLoadButton;
+        public Button DemoButton;
 
         [UsedImplicitly]
         private void Start()
@@ -34,6 +35,7 @@ namespace Assets.Scripts.Menu
                 } catch (IOException) { }
                 SceneManager.LoadScene(1);
             });
+            DemoButton?.onClick.AddListener(() => SceneManager.LoadScene(2));
             GameSettings.Load();
         }
     }

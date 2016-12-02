@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -36,6 +37,8 @@ namespace Assets.Scripts.Io
 
         public static void FromJson(JToken gameSave, bool ensureParents = false)
         {
+            if (gameSave == null)
+                return;
             if (ensureParents)
                 foreach (var gameObjectSerializer in FindObjectsOfType<GameObjectSerializer>())
                     gameObjectSerializer.EnsureParentSerializer();
@@ -69,9 +72,33 @@ namespace Assets.Scripts.Io
 
         public static void SaveFile(bool logSaveMetrics = false)
         {
+            JObject current = null;
+            string outputString = null;
+            try
+            {
+                using (var stream = new FileStream($"{Application.persistentDataPath}/gamesave", FileMode.Open))
+                using (var file = new StreamReader(stream))
+                    current = JObject.Parse(file.ReadToEnd()) ?? new JObject();
+            }
+            catch (Exception)
+            {
+                Debug.Log("Error reading existing savefile. Creating new.");
+            }
+
             var timer = new Stopwatch();
             timer.Start();
-            var serialized = ToJson(JsonSerializer.Create(UnityTypeSerializerSettings), true).ToString();
+            try
+            {
+                if (current == null)
+                    current = new JObject();
+                current[SceneManager.GetActiveScene().name] =
+                    ToJson(JsonSerializer.Create(UnityTypeSerializerSettings), true);
+                outputString = current.ToString();
+            }
+            catch (Exception e)
+            {
+                Debug.LogException(e);
+            }
             timer.Stop();
             if (logSaveMetrics)
             {
@@ -81,19 +108,30 @@ namespace Assets.Scripts.Io
 
             using (var stream = new FileStream($"{Application.persistentDataPath}/gamesave", FileMode.Create))
             using (var file = new StreamWriter(stream))
-                file.Write(serialized);
+                file.Write(outputString);
         }
 
         public static void LoadFile(bool logLoadMetrics = false)
         {
-            string serialized;
+            string inputString;
             using (var stream = new FileStream($"{Application.persistentDataPath}/gamesave", FileMode.Open))
             using (var file = new StreamReader(stream))
-                serialized = file.ReadToEnd();
+                inputString = file.ReadToEnd();
 
             var timer = new Stopwatch();
             timer.Start();
-            FromJson(JObject.Parse(serialized), true);
+            try
+            {
+                FromJson(JObject.Parse(inputString)?[SceneManager.GetActiveScene().name], true);
+            }
+            catch (JsonReaderException e)
+            {
+                Debug.LogWarning($"JsonReader Error: {e.Message}");
+            }
+            catch (Exception e)
+            {
+                Debug.LogException(e);
+            }
             timer.Stop();
             if (!logLoadMetrics) return;
             Loads.Add(timer.ElapsedMilliseconds);
