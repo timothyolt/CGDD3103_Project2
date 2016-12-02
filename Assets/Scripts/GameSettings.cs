@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using UnityEngine;
@@ -11,6 +12,7 @@ namespace Assets.Scripts
 
         private static Resolution _currentResolution;
 
+        public static event Action<Resolution> ResolutionUpdate;
         public static Resolution CurrentResolution
         {
             get { return _currentResolution; }
@@ -18,9 +20,11 @@ namespace Assets.Scripts
             {
                 _currentResolution = value;
                 UpdateResolution(value, _fullscreen);
+                ResolutionUpdate?.Invoke(value);
             }
         }
 
+        public static event Action<bool> FullscreenUpdate;
         public static bool Fullscreen
         {
             get { return _fullscreen; }
@@ -28,11 +32,13 @@ namespace Assets.Scripts
             {
                 _fullscreen = value; 
                 UpdateResolution(_currentResolution, value);
+                FullscreenUpdate?.Invoke(value);
             }
         }
 
         public static void UpdateResolution(Resolution res, bool full) => Screen.SetResolution(res.width, res.height, full, res.refreshRate);
 
+        public static event Action<bool> VsyncUpdate;
         public static bool Vsync
         {
             get { return _vsync; }
@@ -40,13 +46,36 @@ namespace Assets.Scripts
             {
                 _vsync = value;
                 QualitySettings.vSyncCount = value ? 1 : 0;
+                VsyncUpdate?.Invoke(value);
             }
         }
 
-        public static float SfxVolume = 1;
-        public static float MusicVolume = 1;
+        public static event Action<float> SfxVolumeUpdate;
+        public static float SfxVolume
+        {
+            get { return _sfxVolume; }
+            set
+            {
+                _sfxVolume = value; 
+                SfxVolumeUpdate?.Invoke(value);
+            }
+        }
+
+        public static event Action<float> MusicVolumeUpdate;
+        public static float MusicVolume
+        {
+            get { return _musicVolume; }
+            set
+            {
+                _musicVolume = value;
+                MusicVolumeUpdate?.Invoke(value);
+            }
+        }
+
+        private static float _musicVolume = 1;
         private static bool _fullscreen;
         private static bool _vsync;
+        private static float _sfxVolume = 1;
 
         public static void Save()
         {
