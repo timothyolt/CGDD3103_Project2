@@ -27,11 +27,13 @@ namespace Assets.Scripts.Sfx {
             if (AudioSource != null)
             {
                 AudioSource.volume = GameSettings.SfxVolume;
-                GameSettings.SfxVolumeUpdate += volume => AudioSource.volume = volume;
+                GameSettings.SfxVolumeUpdate += UpdateVolume;
                 _synth.SetAudioSource(AudioSource);
             }
             UpdateSfx();
         }
+
+        private void UpdateVolume(float volume) => AudioSource.volume = volume;
 
         [UsedImplicitly]
         private void OnCollisionEnter(Collision collision) {
@@ -43,6 +45,12 @@ namespace Assets.Scripts.Sfx {
                     0f, 1f);
             _synth.parameters = SfxrParams.Lerp(_start, _stop, lerp);
             _synth.Play();
+        }
+
+        [UsedImplicitly]
+        private void OnDestroy()
+        {
+            GameSettings.SfxVolumeUpdate -= UpdateVolume;
         }
     }
 }

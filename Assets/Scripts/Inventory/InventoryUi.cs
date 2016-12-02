@@ -58,11 +58,6 @@ namespace Assets.Scripts.Inventory {
                 Inventory.UseItem(2);
             if (Input.GetKeyDown(KeyCode.Alpha4))
                 Inventory.UseItem(3);
-            if (Input.GetKeyDown(KeyCode.Escape))
-            {
-                SceneSerializer.SaveFile();
-                SceneManager.LoadScene(0);
-            }
         }
 
         public void OnInventoryClick(InventorySlotUi slot) {

@@ -1,4 +1,5 @@
-﻿using JetBrains.Annotations;
+﻿using System.IO;
+using JetBrains.Annotations;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -9,7 +10,8 @@ namespace Assets.Scripts.Menu
     {
         public Button CloseButton;
         public Button OptionsButton;
-        public Button PlayButton;
+        public Button PlayNewButton;
+        public Button PlayLoadButton;
 
         [UsedImplicitly]
         private void Start()
@@ -23,7 +25,15 @@ namespace Assets.Scripts.Menu
                 main.transform.localScale = transform.localScale;
                 Destroy(gameObject);
             });
-            PlayButton?.onClick.AddListener(() => SceneManager.LoadScene(1));
+            PlayLoadButton?.onClick.AddListener(() => SceneManager.LoadScene(1));
+            PlayNewButton?.onClick.AddListener(() =>
+            {
+                try
+                {
+                    File.Delete($"{Application.persistentDataPath}/gamesave");
+                } catch (IOException) { }
+                SceneManager.LoadScene(1);
+            });
             GameSettings.Load();
         }
     }

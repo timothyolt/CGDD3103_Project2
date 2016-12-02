@@ -60,6 +60,11 @@ namespace Assets.Scripts.Io
                 LoadFile(_logLoadMetrics);
                 _logLoadMetrics = true;
             }
+            if (Input.GetKeyDown(KeyCode.Escape))
+            {
+                SaveFile();
+                SceneManager.LoadScene(0);
+            }
         }
 
         public static void SaveFile(bool logSaveMetrics = false)
@@ -93,6 +98,21 @@ namespace Assets.Scripts.Io
             if (!logLoadMetrics) return;
             Loads.Add(timer.ElapsedMilliseconds);
             Debug.Log($"Json deserialization took {timer.ElapsedMilliseconds} ms. Average {Loads.Average()} ms.");
+        }
+
+        [UsedImplicitly]
+        private void Start()
+        {
+            try
+            {
+                LoadFile();
+            } catch (IOException) { }
+        }
+
+        [UsedImplicitly]
+        private void OnDestroy()
+        {
+            SceneManager.LoadScene(0);
         }
     }
 }
